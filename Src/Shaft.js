@@ -6,6 +6,7 @@ Shaft.preload = function() {
     //game.load.image('fluff', 'Data/Fluff.png');
 
     game.load.image('player', 'Data/standin.png');
+    game.load.image('background', 'Data/background.png');
 
 }
 
@@ -15,15 +16,22 @@ Shaft.create = function() {
 
     game.add.plugin(Phaser.Plugin.Debug);
 
-	game.physics.startSystem(Phaser.Physics.P2JS);
+    game.world.setBounds(0, 0, 1920, 10000);
+    game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.gravity.y = 2000;
     //game.time.deltaCap = 0.016;
+
+    game.add.tileSprite(0, 0, 1920, 10000, 'background');
 
     player = game.add.sprite(100, 100, 'player');
     game.physics.p2.enable(player);
 
     player.body.x = game.width / 2;
+    player.body.y = 9500;
     player.body.debug = true;
+
+    game.camera.follow(player);
+
 
     this.clickSpot = {};
     this.clickSpot.x = 0;
@@ -36,8 +44,8 @@ Shaft.create = function() {
     this.connectionBroke = false;
 
     game.input.mouse.mouseDownCallback = function(event) {
-        Shaft.clickSpot.x = game.input.x;
-        Shaft.clickSpot.y = game.input.y;
+        Shaft.clickSpot.x = game.input.worldX;
+        Shaft.clickSpot.y = game.input.worldY;
         Shaft.connectionBroke = false;
     };
 
@@ -67,12 +75,12 @@ Shaft.update = function() {
         this.hooked = true;
 
         //var speed = 2000 / Util.distanceBetween(player.body, this.clickSpot);
-        var speed = 1 / Util.distanceBetween(player.body, this.clickSpot);
-        speed *= 1000;
+        var speed = 1 / (Util.distanceBetween(player.body, this.clickSpot) / 2);
+        speed *= 3000;
 
-        //console.log('Force: ' + 2000 * speed);
 
         Util.accelerateToPoint(player, this.clickSpot, 2000 * speed);
+
         if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
             player.body.force.x = 0;
             player.body.force.y = 0;
@@ -86,6 +94,7 @@ Shaft.update = function() {
     } else {
         this.hooked = false;
     }
+    console.log('Force: ' + player.body.velocity.y);
 
     if(game.time.now > this.energyTicker) {
 
@@ -99,6 +108,8 @@ Shaft.update = function() {
     }
     if(this.energy > 100) this.energy = 100;
     if(this.energy < 0) this.energy = 0;
+
+    Util.constrainVelocity(player, 50);
 };
 
 Shaft.render = function() {

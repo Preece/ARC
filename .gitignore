@@ -1,0 +1,5 @@
+*.exe
+*.sublime-project
+*.sublime-workspace
+*.ini
+frauki.cfg

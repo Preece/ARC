@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Energy Gamejam</title>
+        <script type="text/javascript" src="https://rawgit.com/photonstorm/phaser/master/build/phaser.min.js"></script>
+        <script src="Src/Plugins/phaser-debug.js"></script>
+
+        <!--<script type="text/javascript" src="Src/EventRouter.js"></script>-->
+
+        <script>
+        	var game = new Phaser.Game(512, 288, Phaser.CANVAS, "", Shaft, false, false);
+
+        	game.state.add('Shaft', Shaft, true);
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

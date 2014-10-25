@@ -2,11 +2,11 @@ var Shaft = new Phaser.State();
 
 Shaft.preload = function() {
 	
-    //game.load.atlasJSONHash('Frauki', 'Data/Frauki/Frauki.png', 'Data/Frauki/Frauki.json');
+    game.load.atlasJSONHash('player', 'Art/player.png', 'Art/player.json');
     //game.load.image('fluff', 'Data/Fluff.png');
 
-    game.load.image('player', 'Data/standin.png');
-    game.load.image('background', 'Data/background.png');
+    //game.load.image('player', 'Art/Character/Test_Pose.png');
+    game.load.image('background', 'Art/Environment/Background_Placeholder_1.png');
 
 }
 
@@ -25,13 +25,17 @@ Shaft.create = function() {
 
     player = game.add.sprite(100, 100, 'player');
     game.physics.p2.enable(player);
+    player.body.setRectangle(50, 210, 5, 10); 
+    player.body.mass = 1;
+
+    player.animations.add('swing', ['Test_Pose'], 14, true, false);
+    player.animations.play('swing');
 
     player.body.x = game.width / 2;
     player.body.y = 9500;
     player.body.debug = true;
 
     game.camera.follow(player);
-
 
     this.clickSpot = {};
     this.clickSpot.x = 0;
@@ -42,12 +46,14 @@ Shaft.create = function() {
 
     this.hooked = false;
     this.connectionBroke = false;
+    this.hookSpring = null;
 
     game.input.mouse.mouseDownCallback = function(event) {
         Shaft.clickSpot.x = game.input.worldX;
         Shaft.clickSpot.y = game.input.worldY;
         Shaft.connectionBroke = false;
     };
+
 
     /*
     //  Make things a bit more bouncey
@@ -68,6 +74,8 @@ Shaft.create = function() {
 Shaft.update = function() {
     this.distText.text = 'Energy: ' + this.energy;
 
+    player.body.rotation = 0;
+
     //  only move when you click
     if (game.input.mousePointer.isDown && this.energy > 0 && !this.connectionBroke)
     {
@@ -76,17 +84,16 @@ Shaft.update = function() {
 
         //var speed = 2000 / Util.distanceBetween(player.body, this.clickSpot);
         var speed = 1 / Util.distanceBetween(player.body, this.clickSpot);
-        speed *= 3000;
+        speed *= 2000;
 
+        Util.accelerateToPoint(player, this.clickSpot, 3000 * speed);
 
-        Util.accelerateToPoint(player, this.clickSpot, 2000 * speed);
-
-        /*if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
+        if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
             player.body.force.x = 0;
             player.body.force.y = 0;
             player.body.velocity.x = 0;
             player.body.velocity.y = 0;
-        }*/
+        }
 
     } else if(this.energy <= 0) {
         this.connectionBroke = true;
@@ -94,7 +101,8 @@ Shaft.update = function() {
     } else {
         this.hooked = false;
     }
-    console.log('Force: ' + player.body.velocity.y);
+
+    //console.log('Force: ' + player.body.velocity.y);
 
     if(game.time.now > this.energyTicker) {
 
@@ -109,7 +117,7 @@ Shaft.update = function() {
     if(this.energy > 100) this.energy = 100;
     if(this.energy < 0) this.energy = 0;
 
-    Util.constrainVelocity(player, 50);
+    Util.constrainVelocity(player, 100);
 };
 
 Shaft.render = function() {

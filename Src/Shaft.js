@@ -18,7 +18,7 @@ Shaft.create = function() {
 
     game.world.setBounds(0, 0, 1920, 10000);
     game.physics.startSystem(Phaser.Physics.P2JS);
-    game.physics.p2.gravity.y = 2000;
+    game.physics.p2.gravity.y = 5000;
     //game.time.deltaCap = 0.016;
 
     game.add.tileSprite(0, 0, 1920, 10000, 'background');
@@ -75,18 +75,18 @@ Shaft.update = function() {
         this.hooked = true;
 
         //var speed = 2000 / Util.distanceBetween(player.body, this.clickSpot);
-        var speed = 1 / (Util.distanceBetween(player.body, this.clickSpot) / 2);
+        var speed = 1 / Util.distanceBetween(player.body, this.clickSpot);
         speed *= 3000;
 
 
         Util.accelerateToPoint(player, this.clickSpot, 2000 * speed);
 
-        if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
+        /*if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
             player.body.force.x = 0;
             player.body.force.y = 0;
             player.body.velocity.x = 0;
             player.body.velocity.y = 0;
-        }
+        }*/
 
     } else if(this.energy <= 0) {
         this.connectionBroke = true;

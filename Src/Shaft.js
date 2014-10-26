@@ -9,6 +9,10 @@ Shaft.preload = function() {
     game.load.image('background', 'Art/Environment/Background_Placeholder_1.png');
     game.load.atlasJSONHash('magnet', 'Art/Magnet.png', 'Art/Magnet.json');
 
+    game.load.image('battery', 'Art/Environment/UI/Battery_Border.png');
+    game.load.image('battery_green', 'Art/Environment/UI/Battery_Green.png');
+    game.load.image('battery_red', 'Art/Environment/UI/Battery_Red.png');
+
 };
 
 var lightningCanvas;
@@ -125,13 +129,6 @@ Shaft.create = function() {
         Shaft.hooked = false;
     };
 
-    this.distText = game.add.text(50, 50, '', {font: "40px Arial", fill: "#ff0044"});
-    this.distText.fixedToCamera = true;
-
-    lightningCanvas = game.make.bitmapData(1920, 1080);
-    lightningImage = lightningCanvas.addToWorld();
-    lightningImage.fixedToCamera = true;
-
     //set up the magnets
     Magnets.forEach(function(m) {
         m.sprite = game.add.sprite(50, 50, 'magnet');
@@ -145,6 +142,21 @@ Shaft.create = function() {
         if(m.sprite.x < 1000)
             m.sprite.scale.x = -1;
     });
+
+    lightningCanvas = game.make.bitmapData(1920, 1080);
+    lightningImage = lightningCanvas.addToWorld();
+    lightningImage.fixedToCamera = true;
+
+    this.batteryGreen = game.add.image(0, 0, 'battery_green');
+    this.batteryGreen.fixedToCamera = true;
+    this.batteryGreen.cameraOffset.y = 850;
+    this.batteryRed = game.add.image(0, 0, 'battery_red');
+    this.batteryRed.fixedToCamera = true;
+    this.batteryRed.visible = false;
+    this.batteryRed.cameraOffset.y = 850;
+    this.battery = game.add.image(0, 0, 'battery');
+    this.battery.fixedToCamera = true;
+    this.battery.cameraOffset.y = 850;
 };
 
 Shaft.update = function() {
@@ -176,9 +188,6 @@ Shaft.update = function() {
     if(player.animations.currentAnim.name === 'jump_to_fall' && player.animations.currentAnim.isFinished) {
         player.animations.play('fall');
     }
-
-
-    this.distText.text = 'Energy: ' + this.energy;
 
 
     //  only move when you click
@@ -236,6 +245,17 @@ Shaft.update = function() {
     lightningImage.y = game.camera.y;
 
     Util.constrainVelocity(player, 200);
+
+    if(this.energy < 20) {
+        this.batteryRed.visible = true;
+        this.batteryGreen.visible = false;
+    } else {
+        this.batteryRed.visible = false;
+        this.batteryGreen.visible = true;
+    }
+
+    this.batteryRed.scale.x = this.energy / 100;
+    this.batteryGreen.scale.x = this.energy / 100;
 };
 
 Shaft.render = function() {

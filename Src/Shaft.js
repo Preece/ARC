@@ -7,7 +7,7 @@ Shaft.preload = function() {
 
     //game.load.image('player', 'Art/Character/Test_Pose.png');
     game.load.image('background', 'Art/Environment/Background_Placeholder_1.png');
-    game.load.image('magnet', 'Art/Environment/Magnet.png');
+    game.load.atlasJSONHash('magnet', 'Art/Magnet.png', 'Art/Magnet.json');
 
 };
 
@@ -119,6 +119,7 @@ Shaft.create = function() {
         //if they were hooked on, play the transition animation
         if(Shaft.hooked) {
             player.animations.play('swing_to_jump');
+            ShutOffMagnets();
         }
 
         Shaft.hooked = false;
@@ -133,9 +134,12 @@ Shaft.create = function() {
 
     //set up the magnets
     Magnets.forEach(function(m) {
-        var mag = game.add.sprite(50, 50, 'magnet');
-        mag.x = m.x;
-        mag.y = m.y;
+        m.sprite = game.add.sprite(50, 50, 'magnet');
+        m.sprite.x = m.x;
+        m.sprite.y = m.y;
+        m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
+        m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
+        m.sprite.play('inactive');
     });
 };
 
@@ -238,9 +242,9 @@ Shaft.render = function() {
         var xOffset = player.scale.x > 0 ? -70 : 70;
         var yOffset = -50;
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)");
-        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
-        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
-        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(100,100,255,0.8)");
+        //Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
+        //Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
+        //Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(0,0,255,0.2)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(100,100,255,0.8)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.4)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.2)");

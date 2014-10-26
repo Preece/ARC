@@ -1,0 +1,48 @@
+{"frames": {
+
+"Magnet_Angle_Active_1":
+{
+	"frame": {"x":266,"y":2,"w":93,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":8,"w":93,"h":96},
+	"sourceSize": {"w":109,"h":110},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Magnet_Angle_Active_2":
+{
+	"frame": {"x":2,"y":2,"w":86,"h":99},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":5,"w":86,"h":99},
+	"sourceSize": {"w":109,"h":110},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Magnet_Angle_Active_3":
+{
+	"frame": {"x":90,"y":2,"w":86,"h":99},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":5,"w":86,"h":99},
+	"sourceSize": {"w":109,"h":110},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Magnet_Angle_Inactive":
+{
+	"frame": {"x":178,"y":2,"w":86,"h":99},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":5,"w":86,"h":99},
+	"sourceSize": {"w":109,"h":110},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Magnet.png",
+	"format": "RGBA8888",
+	"size": {"w":361,"h":103},
+	"scale": "0.25",
+	"smartupdate": "$TexturePacker:SmartUpdate:d50dbf659f5a9fdb53b6dd2dac5a3e62:792dd1f03d10e79649e0b166241ff105:0708b34d4177b51f091bdfc908573e65$"
+}
+}

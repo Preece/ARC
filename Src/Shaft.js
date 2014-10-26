@@ -10,6 +10,7 @@ Shaft.preload = function() {
 
 }
 
+var lightningCanvas;
 var player;
 var hookDaemon;
 var hookConstraint = null;
@@ -22,6 +23,7 @@ Shaft.create = function() {
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.gravity.y = 5000;
     //game.time.deltaCap = 0.016;
+
 
     game.add.tileSprite(0, 0, 1920, 10000, 'background');
 
@@ -77,33 +79,16 @@ Shaft.create = function() {
             player.body.velocity.y *= 1.5;
     };
 
-
-    /*
-    //  Make things a bit more bouncey
-    game.physics.p2.defaultRestitution = 0.8;
-
-    //  Enable if for physics. This creates a default rectangular body.
-    game.physics.p2.enable(sprite);
-
-    //  Modify a few body properties
-    sprite.body.setZeroDamping();
-    sprite.body.fixedRotation = true;
-    */
-
     this.distText = game.add.text(50, 50, '', {font: "40px Arial", fill: "#ff0044"});
     this.distText.fixedToCamera = true;
+
+    lightningCanvas = game.add.bitmapData(1920, 1080);
 };
 
 Shaft.update = function() {
     this.distText.text = 'Energy: ' + this.energy;
 
     player.body.rotation = 0;
-
-    if(player.body.velocity.x >= 0) {
-        player.scale.x = -1;
-    } else {
-        player.scale.x = 1;
-    }
 
     //  only move when you click
     if (game.input.mousePointer.isDown && this.energy > 0 && !this.connectionBroke)
@@ -150,7 +135,7 @@ Shaft.update = function() {
     if(game.time.now > this.energyTicker) {
 
         if(this.hooked === true) {
-            //this.energy -= 2;
+            this.energy -= 2;
         } else {
             this.energy += 2;
         }
@@ -167,20 +152,13 @@ Shaft.update = function() {
     }
 
     Util.constrainVelocity(player, 250);
-
-    /*if(player.body.x < 200) {
-        player.body.x = 200;
-        player.body.rotation = 0;
-    }
-
-    if(player.body.x > 1700) {
-        player.body.x = 1700;
-        player.body.rotation = 0;
-    }*/
 };
 
 Shaft.render = function() {
 
+    if(this.hooked) {
+        Util.lightningStrike(player.body.x, player.body.y, this.clickSpot.x, this.clickSpot.y, "rgba(255,0,255,0.5)", "rgba(255,255,255,0.5)");
+    }
 };
 
 Shaft.Restart = function() {

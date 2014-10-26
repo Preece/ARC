@@ -33,5 +33,64 @@ var Util = {
 			body.data.velocity[0] = vx;
 			body.data.velocity[1] = vy;
 		}
+	},
+
+	lightningStrike: function(x1, y1, x2, y2, color1, color2) {
+		var x = x2 - x1;
+		var y = y2 - y1;
+		var segments = 8;
+		var distance = Math.sqrt(x * x + y * y);
+		var width = distance / segments;
+		var prevX = x1;
+		var prevY = y1;
+
+		console.log('Lightning strike!');
+		
+		for(var i = 0; i <= segments; i++) {
+			var magnitude = (width * i) / distance;
+
+			var x3 = magnitude * x2 + (1 - magnitude) * x1;
+			var y3 = magnitude * y2 + (1 - magnitude) * y1;
+			
+			if(i !== 0 && i !== segments) {
+				x3 += (Math.random() * width) - (width / 2);
+				y3 += (Math.random() * width) - (width / 2);
+			}
+			
+			// Draw line
+			lightningCanvas.ctx.strokeStyle = color1;
+			lightningCanvas.ctx.lineWidth = 1;
+			lightningCanvas.ctx.beginPath();
+			lightningCanvas.ctx.moveTo(prevX, prevY);
+			lightningCanvas.ctx.lineTo(x3, y3);
+			lightningCanvas.ctx.closePath();
+			lightningCanvas.ctx.stroke();
+						
+			// Draw point
+			lightningCanvas.ctx.strokeStyle = color1;
+			lightningCanvas.ctx.fillStyle = color1;
+			lightningCanvas.ctx.beginPath();
+			lightningCanvas.ctx.arc(x3, y3, 1, 0, 2 * Math.PI, false);
+			lightningCanvas.ctx.fill();
+			
+			// Draw line
+			lightningCanvas.ctx.strokeStyle = color2;
+			lightningCanvas.ctx.lineWidth = 2;
+			lightningCanvas.ctx.beginPath();
+			lightningCanvas.ctx.moveTo(prevX, prevY);
+			lightningCanvas.ctx.lineTo(x3, y3);
+			lightningCanvas.ctx.closePath();
+			lightningCanvas.ctx.stroke();
+						
+			// Draw point
+			lightningCanvas.ctx.strokeStyle = color2;
+			lightningCanvas.ctx.fillStyle = color2;
+			lightningCanvas.ctx.beginPath();
+			lightningCanvas.ctx.arc(x3, y3, 1, 0, 2 * Math.PI, false);
+			lightningCanvas.ctx.fill();
+			
+			prevX = x3;
+			prevY = y3;
+		}
 	}
 };

@@ -11,6 +11,8 @@ Shaft.preload = function() {
 }
 
 var player;
+var hookDaemon;
+var hookConstraint = null;
 
 Shaft.create = function() {
 
@@ -28,12 +30,20 @@ Shaft.create = function() {
     player.body.setRectangle(50, 210, 5, 10); 
     player.body.mass = 1;
 
-    player.animations.add('swing', ['Test_Pose'], 14, true, false);
+    player.animations.add('idle', ['IdleToShock0000'], 14, true, false);
+    player.animations.add('swing', ['PullLoop0000', 'PullLoop0001', 'PullLoop0002', 'PullLoop0003', 'PullLoop0004', 'PullLoop0005', 'PullLoop0006', 'PullLoop0007', 'PullLoop0008'], 14, true, false);
+    player.animations.add('idle', ['IdleToShock0000'], 14, true, false);
     player.animations.play('swing');
 
     player.body.x = game.width / 2;
     player.body.y = 9500;
-    player.body.debug = true;
+    //player.body.debug = true;
+
+    hookDaemon = game.add.sprite(0, 0, null);
+    game.physics.p2.enable(hookDaemon);
+    hookDaemon.body.static = true;
+    hookDaemon.body.setRectangle(0, 0, 20, 20);
+    hookDaemon.body.debug = true;
 
     game.camera.follow(player);
 
@@ -52,6 +62,14 @@ Shaft.create = function() {
         Shaft.clickSpot.x = game.input.worldX;
         Shaft.clickSpot.y = game.input.worldY;
         Shaft.connectionBroke = false;
+
+        hookDaemon.body.x = game.input.worldX;
+        hookDaemon.body.y = game.input.worldY;
+
+        if(game.input.worldX < player.body.x)
+            player.scale.x = 1;
+        else
+            player.scale.x = -1;
     };
 
 
@@ -76,6 +94,12 @@ Shaft.update = function() {
 
     player.body.rotation = 0;
 
+    /*if(player.body.velocity.x >= 0) {
+        player.scale.x = -1;
+    } else {
+        player.scale.x = 1;
+    }*/
+
     //  only move when you click
     if (game.input.mousePointer.isDown && this.energy > 0 && !this.connectionBroke)
     {
@@ -84,9 +108,13 @@ Shaft.update = function() {
 
         //var speed = 2000 / Util.distanceBetween(player.body, this.clickSpot);
         var speed = 1 / Util.distanceBetween(player.body, this.clickSpot);
-        speed *= 2000;
+        speed *= 4000;
 
-        Util.accelerateToPoint(player, this.clickSpot, 3000 * speed);
+        if(Util.distanceBetween(player.body, hookDaemon.body) < 100 && hookConstraint === null) {
+            hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 100);
+        }
+
+        Util.accelerateToPoint(player, this.clickSpot, 9000);
 
         if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
             player.body.force.x = 0;
@@ -98,8 +126,18 @@ Shaft.update = function() {
     } else if(this.energy <= 0) {
         this.connectionBroke = true;
         this.hooked = false;
+
+        if(hookConstraint !== null) {
+            game.physics.p2.removeConstraint(hookConstraint);
+            hookConstraint = null;
+        }
     } else {
         this.hooked = false;
+
+        if(hookConstraint !== null) {
+            game.physics.p2.removeConstraint(hookConstraint);
+            hookConstraint = null;
+        }
     }
 
     //console.log('Force: ' + player.body.velocity.y);
@@ -107,7 +145,7 @@ Shaft.update = function() {
     if(game.time.now > this.energyTicker) {
 
         if(this.hooked === true) {
-            this.energy -= 2;
+            //this.energy -= 2;
         } else {
             this.energy += 2;
         }
@@ -117,7 +155,23 @@ Shaft.update = function() {
     if(this.energy > 100) this.energy = 100;
     if(this.energy < 0) this.energy = 0;
 
-    Util.constrainVelocity(player, 100);
+    if(this.hooked) {
+        game.physics.p2.gravity.y = 3000;
+    } else {
+        game.physics.p2.gravity.y = 5000;
+    }
+
+    Util.constrainVelocity(player, 250);
+
+    /*if(player.body.x < 200) {
+        player.body.x = 200;
+        player.body.rotation = 0;
+    }
+
+    if(player.body.x > 1700) {
+        player.body.x = 1700;
+        player.body.rotation = 0;
+    }*/
 };
 
 Shaft.render = function() {

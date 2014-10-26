@@ -189,6 +189,9 @@
         <key>fileList</key>
         <array>
             <filename>Character/Test_Pose.png</filename>
+            <filename>Character/IdleToShock</filename>
+            <filename>Character/PullLoop</filename>
+            <filename>Character/ShockToPull</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -35,15 +35,28 @@ Shaft.create = function() {
     player.body.setRectangle(50, 210, 5, 10); 
     player.body.mass = 1;
 
-    player.animations.add('idle', ['IdleToShock0000'], 14, true, false);
-    player.animations.add('swing', ['PullLoop0000', 'PullLoop0001', 'PullLoop0002', 'PullLoop0003', 'PullLoop0004', 'PullLoop0005', 'PullLoop0006', 'PullLoop0007', 'PullLoop0008'], 14, true, false);
-    player.animations.add('initiate', ['IdleToShock0000', 'IdleToShock0001', 'IdleToShock0002', 'IdleToShock0003', 'IdleToShock0004', 'IdleToShock0005', 'IdleToShock0006', 'IdleToShock0007', 'IdleToShock0008', 'IdleToShock0009'], 20, false, false);
-    player.animations.add('initiate_to_swing', ['ShockToPull0000', 'ShockToPull0001', 'ShockToPull0002', 'ShockToPull0003', 'ShockToPull0004'], 20, false, false);
+    player.animations.add('idle', ['IdleToShock/IdleToShock0000'], 
+        14, true, false);
+    player.animations.add('swing', ['PullLoop/PullLoop_2D0000', 'PullLoop/PullLoop_2D0001', 'PullLoop/PullLoop_2D0002', 'PullLoop/PullLoop_2D0003', 'PullLoop/PullLoop_2D0004', 'PullLoop/PullLoop_2D0005', 'PullLoop/PullLoop_2D0006', 'PullLoop/PullLoop_2D0007'], 
+        14, true, false);
+    player.animations.add('initiate', ['IdleToShock/IdleToShock0000', 'IdleToShock/IdleToShock0001', 'IdleToShock/IdleToShock0002', 'IdleToShock/IdleToShock0003', 'IdleToShock/IdleToShock0004', 'IdleToShock/IdleToShock0005', 'IdleToShock/IdleToShock0006', 'IdleToShock/IdleToShock0007', 'IdleToShock/IdleToShock0008', 'IdleToShock/IdleToShock0009'], 
+        14, false, false);
+    player.animations.add('initiate_to_swing', ['ShockToPull/ShockToPull0000', 'ShockToPull/ShockToPull0001', 'ShockToPull/ShockToPull0002', 'ShockToPull/ShockToPull0003', 'ShockToPull/ShockToPull0004'], 
+        14, false, false);
+    player.animations.add('swing_to_jump', ['PullRelease/PullRelease_2D0000', 'PullRelease/PullRelease_2D0001', 'PullRelease/PullRelease_2D0002', 'PullRelease/PullRelease_2D0003', 'PullRelease/PullRelease_2D0004', 'PullRelease/PullRelease_2D0005'], 
+        20, false, false);
+    player.animations.add('jump', ['PullRelease/PullRelease_2D0005'], 
+        14, true, false);
+    player.animations.add('jump_to_fall', ['UpToDown/UpToDown_2D0000', 'UpToDown/UpToDown_2D0001', 'UpToDown/UpToDown_2D0002', 'UpToDown/UpToDown_2D0003', 'UpToDown/UpToDown_2D0004'], 
+        14, false, false);
+    player.animations.add('fall', ['UpToDown/UpToDown_2D0004'], 
+        14, true, false);
+
     player.animations.play('idle');
 
     player.body.x = game.width / 2;
     player.body.y = 9800;
-    //player.body.debug = true;
+    player.body.debug = true;
 
     hookDaemon = game.add.sprite(0, 0, null);
     game.physics.p2.enable(hookDaemon);
@@ -69,10 +82,11 @@ Shaft.create = function() {
 
     game.input.mouse.mouseDownCallback = function(event) {
         if(!PosOnMagnet(game.input.worldX, game.input.worldY)) {
-            this.hooked = false;
+            Shaft.hooked = false;
             return;
         } else {
-            this.hooked = true;
+            player.animations.play('swing');
+            Shaft.hooked = true;
         }
 
         Shaft.clickSpot.x = game.input.worldX;
@@ -101,8 +115,12 @@ Shaft.create = function() {
         if(player.body.velocity.y < 0) {
             player.body.velocity.y *= 1.5;
         }
+        //if they were hooked on, play the transition animation
+        if(Shaft.hooked) {
+            player.animations.play('swing_to_jump');
+        }
 
-        this.hooked = false;
+        Shaft.hooked = false;
     };
 
     this.distText = game.add.text(50, 50, '', {font: "40px Arial", fill: "#ff0044"});
@@ -121,11 +139,10 @@ Shaft.create = function() {
 };
 
 Shaft.update = function() {
-    console.log(this.hooked);
 
     cameraDaemon.body.x = player.body.x;
     cameraDaemon.body.y = player.body.y - 500;
-
+    player.body.rotation = 0;
 
     if(player.animations.currentAnim.name === 'initiate' && !player.animations.currentAnim.isFinished) {
         return;
@@ -139,12 +156,21 @@ Shaft.update = function() {
         player.animations.play('swing');
     }
 
-    if(!this.hooked)
-        return;
+    if(player.animations.currentAnim.name === 'swing_to_jump' && player.animations.currentAnim.isFinished) {
+        player.animations.play('jump');
+    }
+
+    if(player.animations.currentAnim.name === 'jump' && player.body.velocity.y >= -50) {
+        player.animations.play('jump_to_fall');
+    }
+
+    if(player.animations.currentAnim.name === 'jump_to_fall' && player.animations.currentAnim.isFinished) {
+        player.animations.play('fall');
+    }
+
 
     this.distText.text = 'Energy: ' + this.energy;
 
-    player.body.rotation = 0;
 
     //  only move when you click
     if (this.hooked && this.energy > 0 && !this.connectionBroke)
@@ -177,9 +203,7 @@ Shaft.update = function() {
         }
     }
 
-    //console.log('Force: ' + player.body.velocity.y);
-
-    if(game.time.now > this.energyTicker) {
+    if(game.time.now > this.energyTicker) { 
 
         if(this.hooked === true) {
             this.energy -= 2;

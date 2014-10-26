@@ -180,7 +180,7 @@
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">None</enum>
+            <enum type="SpriteSettings::TrimMode">CropKeepPos</enum>
             <key>heuristicMask</key>
             <false/>
             <key>pivotPoint</key>
@@ -188,10 +188,7 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>Character/Test_Pose.png</filename>
-            <filename>Character/IdleToShock</filename>
-            <filename>Character/PullLoop</filename>
-            <filename>Character/ShockToPull</filename>
+            <filename>Character</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

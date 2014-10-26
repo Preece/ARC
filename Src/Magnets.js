@@ -53,5 +53,6 @@ function PosOnMagnet(x, y) {
 			onTheMag = true;
 	});
 
-	return onTheMag;
+	//return onTheMag;
+	return true;
 };

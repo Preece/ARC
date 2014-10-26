@@ -9,6 +9,7 @@ Shaft.preload = function() {
     game.load.image('background', 'Art/Environment/Background_Tile_1.png');
     game.load.atlasJSONHash('magnet', 'Art/Magnet.png', 'Art/Magnet.json');
     game.load.atlasJSONHash('UI', 'Art/UI.png', 'Art/UI.json');
+    game.load.atlasJSONHash('foreground', 'Art/Foreground.png', 'Art/Foreground.json');
 
     game.load.image('battery', 'Art/Environment/UI/Battery_Border.png');
     game.load.image('battery_green', 'Art/Environment/UI/Battery_Green.png');
@@ -156,6 +157,14 @@ Shaft.create = function() {
     lightningImage = lightningCanvas.addToWorld();
     lightningImage.fixedToCamera = true;
 
+    game.add.image(0, 38000, 'foreground', 'Foreground_1');
+    game.add.image(0, 35000, 'foreground', 'Foreground_2');
+    var zzz = game.add.image(0, 30000, 'foreground', 'Foreground_1');
+    zzz.scale = -1;
+    game.add.image(0, 27000, 'foreground', 'Foreground_2');
+    var xzz = game.add.image(0, 24000, 'foreground', 'Foreground_2');
+    xzz.scale = -1;
+
     this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
     this.batteryGreen.fixedToCamera = true;
     this.batteryGreen.cameraOffset.y = 910;
@@ -169,6 +178,7 @@ Shaft.create = function() {
     this.battery.fixedToCamera = true;
     this.battery.cameraOffset.y = 900;
     this.battery.cameraOffset.x = 20;
+
 };
 
 Shaft.update = function() {

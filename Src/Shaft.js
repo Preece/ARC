@@ -56,7 +56,7 @@ Shaft.create = function() {
 
     player.body.x = game.width / 2;
     player.body.y = 9800;
-    player.body.debug = true;
+    //player.body.debug = true;
 
     hookDaemon = game.add.sprite(0, 0, null);
     game.physics.p2.enable(hookDaemon);
@@ -66,6 +66,7 @@ Shaft.create = function() {
 
     cameraDaemon = game.add.sprite(0, 0, null);
     game.physics.p2.enable(cameraDaemon);
+    cameraDaemon.body.static = true;
 
     game.camera.follow(cameraDaemon);
 
@@ -113,7 +114,7 @@ Shaft.create = function() {
 
     game.input.mouse.mouseUpCallback = function(event) {
         if(player.body.velocity.y < 0) {
-            player.body.velocity.y *= 1.5;
+            player.body.velocity.y *= 1.2;
         }
         //if they were hooked on, play the transition animation
         if(Shaft.hooked) {
@@ -141,7 +142,7 @@ Shaft.create = function() {
 Shaft.update = function() {
 
     cameraDaemon.body.x = player.body.x;
-    cameraDaemon.body.y = player.body.y - 500;
+    cameraDaemon.body.y = player.body.y - 400;
     player.body.rotation = 0;
 
     if(player.animations.currentAnim.name === 'initiate' && !player.animations.currentAnim.isFinished) {
@@ -206,7 +207,8 @@ Shaft.update = function() {
     if(game.time.now > this.energyTicker) { 
 
         if(this.hooked === true) {
-            this.energy -= 2;
+            var dist = Util.distanceBetween(player.body, hookDaemon.body);
+            this.energy -= 2 + (7 * (dist / 2000));
         } else {
             this.energy += 2;
         }
@@ -232,9 +234,9 @@ Shaft.render = function() {
 
     lightningCanvas.clear();
     
-    if(this.hooked) {
-        var xOffset = player.scale.x > 0 ? -50 : 50;
-        var yOffset = -20;
+    if(this.hooked && !this.connectionBroke) {
+        var xOffset = player.scale.x > 0 ? -70 : 70;
+        var yOffset = -50;
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)");
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");

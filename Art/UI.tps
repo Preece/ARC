@@ -191,6 +191,16 @@
             <filename>Environment/UI/Battery_Border.png</filename>
             <filename>Environment/UI/Battery_Green.png</filename>
             <filename>Environment/UI/Battery_Red.png</filename>
+            <filename>Environment/Floor_2.png</filename>
+            <filename>Environment/Floor_3.png</filename>
+            <filename>Environment/Floor_4.png</filename>
+            <filename>Environment/Floor_5.png</filename>
+            <filename>Environment/Floor_6.png</filename>
+            <filename>Environment/Floor_7.png</filename>
+            <filename>Environment/Floor_8.png</filename>
+            <filename>Environment/Floor_9.png</filename>
+            <filename>Environment/Floor_10.png</filename>
+            <filename>Environment/Floor_1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

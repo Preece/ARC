@@ -11,9 +11,7 @@ Shaft.preload = function() {
     game.load.atlasJSONHash('UI', 'Art/UI.png', 'Art/UI.json');
     game.load.atlasJSONHash('foreground', 'Art/Foreground.png', 'Art/Foreground.json');
 
-    game.load.image('battery', 'Art/Environment/UI/Battery_Border.png');
-    game.load.image('battery_green', 'Art/Environment/UI/Battery_Green.png');
-    game.load.image('battery_red', 'Art/Environment/UI/Battery_Red.png');
+    game.load.image('title', 'Art/Environment/Title.png');
 
 };
 
@@ -35,6 +33,12 @@ Shaft.create = function() {
     //game.time.deltaCap = 0.016;
 
     game.add.tileSprite(0, 0, 1920, 40000, 'background');
+    game.add.image(0, 38920, 'title');
+
+    //add the numbers
+    for(var i = 1; i <= 10; i++) {
+        game.add.image(940, 40000 - (i * 2500), 'UI', 'Floor_' + i);
+    }
 
     player = game.add.sprite(100, 100, 'player');
     game.physics.p2.enable(player);
@@ -160,10 +164,10 @@ Shaft.create = function() {
     game.add.image(0, 38000, 'foreground', 'Foreground_1');
     game.add.image(0, 35000, 'foreground', 'Foreground_2');
     var zzz = game.add.image(0, 30000, 'foreground', 'Foreground_1');
-    zzz.scale = -1;
+    zzz.scale.x = -1;
     game.add.image(0, 27000, 'foreground', 'Foreground_2');
     var xzz = game.add.image(0, 24000, 'foreground', 'Foreground_2');
-    xzz.scale = -1;
+    xzz.scale.x = -1;
 
     this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
     this.batteryGreen.fixedToCamera = true;

@@ -7,14 +7,17 @@ Shaft.preload = function() {
 
     //game.load.image('player', 'Art/Character/Test_Pose.png');
     game.load.image('background', 'Art/Environment/Background_Placeholder_1.png');
+    game.load.image('magnet', 'Art/Environment/Magnet.png');
 
-}
+};
 
 var lightningCanvas;
 var lightningImage;
 var player;
 var hookDaemon;
 var hookConstraint = null;
+
+var cameraDaemon;
 
 Shaft.create = function() {
 
@@ -48,7 +51,10 @@ Shaft.create = function() {
     hookDaemon.body.setRectangle(0, 0, 20, 20);
     hookDaemon.body.debug = true;
 
-    game.camera.follow(player);
+    cameraDaemon = game.add.sprite(0, 0, null);
+    game.physics.p2.enable(cameraDaemon);
+
+    game.camera.follow(cameraDaemon);
 
     this.clickSpot = {};
     this.clickSpot.x = 0;
@@ -62,6 +68,12 @@ Shaft.create = function() {
     this.hookSpring = null;
 
     game.input.mouse.mouseDownCallback = function(event) {
+        if(!PosOnMagnet(game.input.worldX, game.input.worldY)) {
+            this.hooked = false;
+            return;
+        } else {
+            this.hooked = true;
+        }
 
         Shaft.clickSpot.x = game.input.worldX;
         Shaft.clickSpot.y = game.input.worldY;
@@ -86,8 +98,11 @@ Shaft.create = function() {
     };
 
     game.input.mouse.mouseUpCallback = function(event) {
-        if(player.body.velocity.y < 0)
+        if(player.body.velocity.y < 0) {
             player.body.velocity.y *= 1.5;
+        }
+
+        this.hooked = false;
     };
 
     this.distText = game.add.text(50, 50, '', {font: "40px Arial", fill: "#ff0044"});
@@ -96,9 +111,22 @@ Shaft.create = function() {
     lightningCanvas = game.make.bitmapData(1920, 1080);
     lightningImage = lightningCanvas.addToWorld();
     lightningImage.fixedToCamera = true;
+
+    //set up the magnets
+    Magnets.forEach(function(m) {
+        var mag = game.add.sprite(50, 50, 'magnet');
+        mag.x = m.x;
+        mag.y = m.y;
+    });
 };
 
 Shaft.update = function() {
+    console.log(this.hooked);
+
+    cameraDaemon.body.x = player.body.x;
+    cameraDaemon.body.y = player.body.y - 500;
+
+
     if(player.animations.currentAnim.name === 'initiate' && !player.animations.currentAnim.isFinished) {
         return;
     } 
@@ -111,17 +139,22 @@ Shaft.update = function() {
         player.animations.play('swing');
     }
 
+    if(!this.hooked)
+        return;
+
     this.distText.text = 'Energy: ' + this.energy;
 
     player.body.rotation = 0;
 
     //  only move when you click
-    if (game.input.mousePointer.isDown && this.energy > 0 && !this.connectionBroke)
+    if (this.hooked && this.energy > 0 && !this.connectionBroke)
     {
         //later this will depend on whether or not they clicked on a magnet
-        this.hooked = true;
+        //this.hooked = true;
 
-        if(Util.distanceBetween(player.body, hookDaemon.body) < 100 && hookConstraint === null) {
+        var distance = Util.distanceBetween(player.body, hookDaemon.body);
+
+        if(distance < 100 && hookConstraint === null) {
             hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 100);
         }
 
@@ -129,14 +162,14 @@ Shaft.update = function() {
 
     } else if(this.energy <= 0) {
         this.connectionBroke = true;
-        this.hooked = false;
+        //this.hooked = false;
 
         if(hookConstraint !== null) {
             game.physics.p2.removeConstraint(hookConstraint);
             hookConstraint = null;
         }
     } else {
-        this.hooked = false;
+        //this.hooked = false;
 
         if(hookConstraint !== null) {
             game.physics.p2.removeConstraint(hookConstraint);
@@ -159,7 +192,7 @@ Shaft.update = function() {
     if(this.energy > 100) this.energy = 100;
     if(this.energy < 0) this.energy = 0;
 
-    if(this.hooked && player.body.velocity.y  < 0) {
+    if(this.hooked && player.body.velocity.y < 0) {
         game.physics.p2.gravity.y = 4000;
     } else {
         game.physics.p2.gravity.y = 6000;
@@ -168,7 +201,7 @@ Shaft.update = function() {
     lightningImage.x = game.camera.x;
     lightningImage.y = game.camera.y;
 
-    Util.constrainVelocity(player, 500);
+    Util.constrainVelocity(player, 200);
 };
 
 Shaft.render = function() {
@@ -178,10 +211,10 @@ Shaft.render = function() {
     if(this.hooked) {
         var xOffset = player.scale.x > 0 ? -50 : 50;
         var yOffset = -20;
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)");
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(100,100,255,0.8)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(100,100,255,0.8)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(100,100,255,0.8)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.4)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.2)");

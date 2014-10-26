@@ -35,15 +35,58 @@ var Util = {
 		}
 	},
 
-	lightningStrike: function(x1, y1, x2, y2, color1, color2) {
+	crazyLightning: function(x1, y1, x2, y2, color1, color2) {
+		/*//call lightning strike at a number of sequential points that eventually reach the target
+		var segments = 8;
+
 		var x = x2 - x1;
 		var y = y2 - y1;
-		var segments = 50;
+		var distance = Math.sqrt(x * x + y * y);
+		var pointDistance = distance / segments;
+
+		//generate x points along the line between the points
+		//randomly modify each of the points
+		//loop for every segment and draw a lightning between the points*/
+
+		var x = x2 - x1;
+		var y = y2 - y1;
+		var segments = 4;
 		var distance = Math.sqrt(x * x + y * y);
 		var width = distance / segments;
 		var prevX = x1;
 		var prevY = y1;
-		//width = width || 1;
+		
+		for(var i = 0; i <= segments; i++) {
+			var magnitude = (width * i) / distance;
+
+			var x3 = magnitude * x2 + (1 - magnitude) * x1;
+			var y3 = magnitude * y2 + (1 - magnitude) * y1;
+			
+			if(i !== 0 && i !== segments) {
+				x3 += (Math.random() * width) - (width / 2);
+				y3 += (Math.random() * width) - (width / 2);
+			}
+			
+			Util.lightningStrike(prevX, prevY, x3, y3, color1, color2);
+			Util.lightningStrike(prevX, prevY, x3, y3, color1, color2);
+        	//Util.lightningStrike(prevX, prevY, x3, y3, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
+       	 	//Util.lightningStrike(prevX, prevY, x3, y3, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
+        	//Util.lightningStrike(prevX, prevY, x3, y3, "rgba(0,0,255,0.8)", "rgba(100,100,255,0.8)");
+        
+			
+			prevX = x3;
+			prevY = y3;
+		}
+	},
+
+	lightningStrike: function(x1, y1, x2, y2, color1, color2) {
+		var x = x2 - x1;
+		var y = y2 - y1;
+		var segments = 4;
+		var distance = Math.sqrt(x * x + y * y);
+		var width = distance / segments;
+		var prevX = x1;
+		var prevY = y1;
 		
 		for(var i = 0; i <= segments; i++) {
 			var magnitude = (width * i) / distance;

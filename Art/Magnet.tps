@@ -180,7 +180,7 @@
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">Crop</enum>
             <key>heuristicMask</key>
             <false/>
             <key>pivotPoint</key>
@@ -192,9 +192,10 @@
             <filename>Environment/Magnet/Magnet_Angle_Active_2.png</filename>
             <filename>Environment/Magnet/Magnet_Angle_Active_3.png</filename>
             <filename>Environment/Magnet/Magnet_Angle_Inactive.png</filename>
-            <filename>Environment/UI/Battery_Border.png</filename>
-            <filename>Environment/UI/Battery_Green.png</filename>
-            <filename>Environment/UI/Battery_Red.png</filename>
+            <filename>Environment/Magnet/Magnet_Front_Active_1.png</filename>
+            <filename>Environment/Magnet/Magnet_Front_Active_2.png</filename>
+            <filename>Environment/Magnet/Magnet_Front_Active_3.png</filename>
+            <filename>Environment/Magnet/Magnet_Front_Inactive.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

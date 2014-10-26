@@ -40,6 +40,30 @@ Shaft.create = function() {
         game.add.image(940, 40000 - (i * 2500), 'UI', 'Floor_' + i);
     }
 
+    //set up the magnets
+    Magnets.forEach(function(m) {
+        m.sprite = game.add.sprite(50, 50, 'magnet');
+        m.sprite.x = m.x;
+        m.sprite.y = m.y;
+        
+        if(m.sprite.x < 400) {
+            m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
+            m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
+
+            m.sprite.scale.x = -1;
+            m.sprite.anchor.setTo(1, 0);
+        } else if(m.sprite.x > 1300) {
+            m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
+            m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
+        } else {
+            m.sprite.animations.add('inactive', ['Magnet_Front_Inactive'], 14, true, false);
+            m.sprite.animations.add('active', ['Magnet_Front_Active_1', 'Magnet_Front_Active_2', 'Magnet_Front_Active_3'], 10, true, false);
+
+        }
+
+        m.sprite.play('inactive');
+    });
+
     player = game.add.sprite(100, 100, 'player');
     game.physics.p2.enable(player);
     player.body.setRectangle(50, 210, 5, 10); 
@@ -141,21 +165,6 @@ Shaft.create = function() {
 
         Shaft.hooked = false;
     };
-
-    //set up the magnets
-    Magnets.forEach(function(m) {
-        m.sprite = game.add.sprite(50, 50, 'magnet');
-        m.sprite.x = m.x;
-        m.sprite.y = m.y;
-        m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
-        m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
-        m.sprite.play('inactive');
-
-        if(m.sprite.x < 1000) {
-            m.sprite.scale.x = -1;
-            m.sprite.anchor.setTo(1, 0);
-        }
-    });
 
     lightningCanvas = game.make.bitmapData(1920, 1080);
     lightningImage = lightningCanvas.addToWorld();

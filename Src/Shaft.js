@@ -11,6 +11,7 @@ Shaft.preload = function() {
 }
 
 var lightningCanvas;
+var lightningImage;
 var player;
 var hookDaemon;
 var hookConstraint = null;
@@ -23,7 +24,6 @@ Shaft.create = function() {
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.gravity.y = 5000;
     //game.time.deltaCap = 0.016;
-
 
     game.add.tileSprite(0, 0, 1920, 10000, 'background');
 
@@ -82,7 +82,9 @@ Shaft.create = function() {
     this.distText = game.add.text(50, 50, '', {font: "40px Arial", fill: "#ff0044"});
     this.distText.fixedToCamera = true;
 
-    lightningCanvas = game.add.bitmapData(1920, 1080);
+    lightningCanvas = game.make.bitmapData(1920, 1080);
+    lightningImage = lightningCanvas.addToWorld();
+    lightningImage.fixedToCamera = true;
 };
 
 Shaft.update = function() {
@@ -104,7 +106,7 @@ Shaft.update = function() {
             hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 100);
         }
 
-        Util.accelerateToPoint(player, this.clickSpot, 9000);
+        Util.accelerateToPoint(player, this.clickSpot, 20000);
 
         if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
             player.body.force.x = 0;
@@ -145,19 +147,32 @@ Shaft.update = function() {
     if(this.energy > 100) this.energy = 100;
     if(this.energy < 0) this.energy = 0;
 
-    if(this.hooked) {
-        game.physics.p2.gravity.y = 3000;
+    if(this.hooked && player.body.velocity.y  < 0) {
+        game.physics.p2.gravity.y = 4000;
     } else {
-        game.physics.p2.gravity.y = 5000;
+        game.physics.p2.gravity.y = 6000;
     }
 
-    Util.constrainVelocity(player, 250);
+    lightningImage.x = game.camera.x;
+    lightningImage.y = game.camera.y;
+
+    Util.constrainVelocity(player, 500);
 };
 
 Shaft.render = function() {
 
+    lightningCanvas.clear();
+    
     if(this.hooked) {
-        Util.lightningStrike(player.body.x, player.body.y, this.clickSpot.x, this.clickSpot.y, "rgba(255,0,255,0.5)", "rgba(255,255,255,0.5)");
+        var xOffset = player.scale > 0 ? -50 : 50;
+        var yOffset = 0;
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)", 1.1);
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(100,100,255,0.8)");
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(100,100,255,0.8)");
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.4)");
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.2)");
     }
 };
 

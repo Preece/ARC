@@ -35,14 +35,15 @@ var Util = {
 		}
 	},
 
-	lightningStrike: function(x1, y1, x2, y2, color1, color2) {
+	lightningStrike: function(x1, y1, x2, y2, color1, color2, width) {
 		var x = x2 - x1;
 		var y = y2 - y1;
-		var segments = 8;
+		var segments = 50;
 		var distance = Math.sqrt(x * x + y * y);
 		var width = distance / segments;
 		var prevX = x1;
 		var prevY = y1;
+		width = width || 1;
 
 		console.log('Lightning strike!');
 		
@@ -58,36 +59,36 @@ var Util = {
 			}
 			
 			// Draw line
-			lightningCanvas.ctx.strokeStyle = color1;
-			lightningCanvas.ctx.lineWidth = 1;
-			lightningCanvas.ctx.beginPath();
-			lightningCanvas.ctx.moveTo(prevX, prevY);
-			lightningCanvas.ctx.lineTo(x3, y3);
-			lightningCanvas.ctx.closePath();
-			lightningCanvas.ctx.stroke();
+			lightningCanvas.context.strokeStyle = color1;
+			lightningCanvas.context.lineWidth = 1;
+			lightningCanvas.context.beginPath();
+			lightningCanvas.context.moveTo(prevX, prevY);
+			lightningCanvas.context.lineTo(x3, y3);
+			lightningCanvas.context.closePath();
+			lightningCanvas.context.stroke();
 						
 			// Draw point
-			lightningCanvas.ctx.strokeStyle = color1;
-			lightningCanvas.ctx.fillStyle = color1;
-			lightningCanvas.ctx.beginPath();
-			lightningCanvas.ctx.arc(x3, y3, 1, 0, 2 * Math.PI, false);
-			lightningCanvas.ctx.fill();
+			lightningCanvas.context.strokeStyle = color1;
+			lightningCanvas.context.fillStyle = color1;
+			lightningCanvas.context.beginPath();
+			lightningCanvas.context.arc(x3, y3, 1, 0, 2 * Math.PI, false);
+			lightningCanvas.context.fill();
 			
 			// Draw line
-			lightningCanvas.ctx.strokeStyle = color2;
-			lightningCanvas.ctx.lineWidth = 2;
-			lightningCanvas.ctx.beginPath();
-			lightningCanvas.ctx.moveTo(prevX, prevY);
-			lightningCanvas.ctx.lineTo(x3, y3);
-			lightningCanvas.ctx.closePath();
-			lightningCanvas.ctx.stroke();
+			lightningCanvas.context.strokeStyle = color2;
+			lightningCanvas.context.lineWidth = 2;
+			lightningCanvas.context.beginPath();
+			lightningCanvas.context.moveTo(prevX, prevY);
+			lightningCanvas.context.lineTo(x3, y3);
+			lightningCanvas.context.closePath();
+			lightningCanvas.context.stroke();
 						
 			// Draw point
-			lightningCanvas.ctx.strokeStyle = color2;
-			lightningCanvas.ctx.fillStyle = color2;
-			lightningCanvas.ctx.beginPath();
-			lightningCanvas.ctx.arc(x3, y3, 1, 0, 2 * Math.PI, false);
-			lightningCanvas.ctx.fill();
+			lightningCanvas.context.strokeStyle = color2;
+			lightningCanvas.context.fillStyle = color2;
+			lightningCanvas.context.beginPath();
+			lightningCanvas.context.arc(x3, y3, 1, 0, 2 * Math.PI, false);
+			lightningCanvas.context.fill();
 			
 			prevX = x3;
 			prevY = y3;

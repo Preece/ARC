@@ -28,12 +28,12 @@ Shaft.create = function() {
 
     game.add.plugin(Phaser.Plugin.Debug);
 
-    game.world.setBounds(0, 0, 1920, 10000);
+    game.world.setBounds(0, 0, 1920, 40000);
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.gravity.y = 5000;
     //game.time.deltaCap = 0.016;
 
-    game.add.tileSprite(0, 0, 1920, 10000, 'background');
+    game.add.tileSprite(0, 0, 1920, 40000, 'background');
 
     player = game.add.sprite(100, 100, 'player');
     game.physics.p2.enable(player);
@@ -62,7 +62,7 @@ Shaft.create = function() {
     player.animations.play('idle');
 
     player.body.x = game.width / 2;
-    player.body.y = 9800;
+    player.body.y = 39900;
     //player.body.debug = true;
 
     hookDaemon = game.add.sprite(0, 0, null);

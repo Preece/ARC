@@ -135,11 +135,15 @@ Shaft.create = function() {
     //set up the magnets
     Magnets.forEach(function(m) {
         m.sprite = game.add.sprite(50, 50, 'magnet');
+        m.sprite.anchor.setTo(1, 0);
         m.sprite.x = m.x;
         m.sprite.y = m.y;
         m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
         m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
         m.sprite.play('inactive');
+
+        if(m.sprite.x < 1000)
+            m.sprite.scale.x = -1;
     });
 };
 
@@ -241,9 +245,9 @@ Shaft.render = function() {
     if(this.hooked && !this.connectionBroke) {
         var xOffset = player.scale.x > 0 ? -70 : 70;
         var yOffset = -50;
-        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)");
-        //Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
-        //Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(255,255,255,1)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
         //Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(0,0,255,0.2)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(100,100,255,0.8)");
         //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.4)");

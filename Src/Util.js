@@ -69,7 +69,7 @@ var Util = {
 			
 			Util.lightningStrike(prevX, prevY, x3, y3, color1, color2);
 			Util.lightningStrike(prevX, prevY, x3, y3, color1, color2);
-        	//Util.lightningStrike(prevX, prevY, x3, y3, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
+        	Util.lightningStrike(prevX, prevY, x3, y3, "rgba(0,0,255,1)", "rgba(0,0,255,0.8)");
        	 	//Util.lightningStrike(prevX, prevY, x3, y3, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
         	//Util.lightningStrike(prevX, prevY, x3, y3, "rgba(0,0,255,0.8)", "rgba(100,100,255,0.8)");
         

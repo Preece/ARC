@@ -1,39 +1,66 @@
 {"frames": {
 
-"Magnet_Angle_Active_1":
+"Battery_Border":
 {
-	"frame": {"x":419,"y":2,"w":149,"h":154},
+	"frame": {"x":705,"y":2,"w":189,"h":61},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":11,"y":12,"w":149,"h":154},
-	"sourceSize": {"w":174,"h":176},
+	"spriteSourceSize": {"x":24,"y":20,"w":189,"h":61},
+	"sourceSize": {"w":238,"h":99},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Battery_Green":
+{
+	"frame": {"x":705,"y":65,"w":153,"h":47},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":39,"y":32,"w":153,"h":47},
+	"sourceSize": {"w":238,"h":99},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Battery_Red":
+{
+	"frame": {"x":705,"y":114,"w":153,"h":47},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":39,"y":32,"w":153,"h":47},
+	"sourceSize": {"w":238,"h":99},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Magnet_Angle_Active_1":
+{
+	"frame": {"x":518,"y":2,"w":185,"h":192},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":16,"w":185,"h":192},
+	"sourceSize": {"w":217,"h":221},
 	"pivot": {"x":0.5,"y":0.5}
 },
 "Magnet_Angle_Active_2":
 {
-	"frame": {"x":2,"y":2,"w":137,"h":157},
+	"frame": {"x":2,"y":2,"w":170,"h":198},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":22,"y":9,"w":137,"h":157},
-	"sourceSize": {"w":174,"h":176},
+	"spriteSourceSize": {"x":28,"y":11,"w":170,"h":198},
+	"sourceSize": {"w":217,"h":221},
 	"pivot": {"x":0.5,"y":0.5}
 },
 "Magnet_Angle_Active_3":
 {
-	"frame": {"x":141,"y":2,"w":137,"h":157},
+	"frame": {"x":174,"y":2,"w":170,"h":198},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":22,"y":9,"w":137,"h":157},
-	"sourceSize": {"w":174,"h":176},
+	"spriteSourceSize": {"x":28,"y":11,"w":170,"h":198},
+	"sourceSize": {"w":217,"h":221},
 	"pivot": {"x":0.5,"y":0.5}
 },
 "Magnet_Angle_Inactive":
 {
-	"frame": {"x":280,"y":2,"w":137,"h":157},
+	"frame": {"x":346,"y":2,"w":170,"h":198},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":22,"y":9,"w":137,"h":157},
-	"sourceSize": {"w":174,"h":176},
+	"spriteSourceSize": {"x":28,"y":11,"w":170,"h":198},
+	"sourceSize": {"w":217,"h":221},
 	"pivot": {"x":0.5,"y":0.5}
 }},
 "meta": {
@@ -41,8 +68,8 @@
 	"version": "1.0",
 	"image": "Magnet.png",
 	"format": "RGBA8888",
-	"size": {"w":570,"h":161},
-	"scale": "0.4",
-	"smartupdate": "$TexturePacker:SmartUpdate:26246870cf369df8de9925fd9f6eb720:792dd1f03d10e79649e0b166241ff105:0708b34d4177b51f091bdfc908573e65$"
+	"size": {"w":896,"h":202},
+	"scale": "0.5",
+	"smartupdate": "$TexturePacker:SmartUpdate:cf6d996f40a7a3cc9be4688ab6ad72a5:147e2f2c49cce24d269c386fb0e94d29:0708b34d4177b51f091bdfc908573e65$"
 }
 }

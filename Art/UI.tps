@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.5.2</string>
         <key>fileName</key>
-        <string>C:/Users/Casey/Desktop/energy-gamejam/Art/Magnet.tps</string>
+        <string>C:/Users/Casey/Desktop/energy-gamejam/Art/UI.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>json</string>
         <key>textureFileName</key>
-        <filename>Magnet.png</filename>
+        <filename>UI.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -145,7 +145,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>Magnet.json</filename>
+                <filename>UI.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -170,7 +170,7 @@
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
-            <double>0.5</double>
+            <double>1</double>
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>innerPadding</key>
@@ -180,7 +180,7 @@
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">Crop</enum>
             <key>heuristicMask</key>
             <false/>
             <key>pivotPoint</key>
@@ -188,10 +188,6 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>Environment/Magnet/Magnet_Angle_Active_1.png</filename>
-            <filename>Environment/Magnet/Magnet_Angle_Active_2.png</filename>
-            <filename>Environment/Magnet/Magnet_Angle_Active_3.png</filename>
-            <filename>Environment/Magnet/Magnet_Angle_Inactive.png</filename>
             <filename>Environment/UI/Battery_Border.png</filename>
             <filename>Environment/UI/Battery_Green.png</filename>
             <filename>Environment/UI/Battery_Red.png</filename>

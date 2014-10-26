@@ -6,8 +6,9 @@ Shaft.preload = function() {
     //game.load.image('fluff', 'Data/Fluff.png');
 
     //game.load.image('player', 'Art/Character/Test_Pose.png');
-    game.load.image('background', 'Art/Environment/Background_Placeholder_1.png');
+    game.load.image('background', 'Art/Environment/Background_Tile_1.png');
     game.load.atlasJSONHash('magnet', 'Art/Magnet.png', 'Art/Magnet.json');
+    game.load.atlasJSONHash('UI', 'Art/UI.png', 'Art/UI.json');
 
     game.load.image('battery', 'Art/Environment/UI/Battery_Border.png');
     game.load.image('battery_green', 'Art/Environment/UI/Battery_Green.png');
@@ -55,6 +56,8 @@ Shaft.create = function() {
         14, false, false);
     player.animations.add('fall', ['UpToDown/UpToDown_2D0004'], 
         14, true, false);
+    player.animations.add('jump_to_swing', ['UpToPull/UpToPull_2D0000', 'UpToPull/UpToPull_2D0001', 'UpToPull/UpToPull_2D0002', 'UpToPull/UpToPull_2D0003', 'UpToPull/UpToPull_2D0004', 'UpToPull/UpToPull_2D0005', 'UpToPull/UpToPull_2D0006'],
+        20, false, false);
 
     player.animations.play('idle');
 
@@ -90,7 +93,12 @@ Shaft.create = function() {
             Shaft.hooked = false;
             return;
         } else {
-            player.animations.play('swing');
+            if(player.animations.currentAnim.name === 'jump') {
+                player.animations.play('jump_to_swing');
+            } else {
+                player.animations.play('swing');
+            }
+
             Shaft.hooked = true;
         }
 
@@ -132,31 +140,35 @@ Shaft.create = function() {
     //set up the magnets
     Magnets.forEach(function(m) {
         m.sprite = game.add.sprite(50, 50, 'magnet');
-        m.sprite.anchor.setTo(1, 0);
         m.sprite.x = m.x;
         m.sprite.y = m.y;
         m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
         m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
         m.sprite.play('inactive');
 
-        if(m.sprite.x < 1000)
+        if(m.sprite.x < 1000) {
             m.sprite.scale.x = -1;
+            m.sprite.anchor.setTo(1, 0);
+        }
     });
 
     lightningCanvas = game.make.bitmapData(1920, 1080);
     lightningImage = lightningCanvas.addToWorld();
     lightningImage.fixedToCamera = true;
 
-    this.batteryGreen = game.add.image(0, 0, 'battery_green');
+    this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
     this.batteryGreen.fixedToCamera = true;
-    this.batteryGreen.cameraOffset.y = 850;
-    this.batteryRed = game.add.image(0, 0, 'battery_red');
+    this.batteryGreen.cameraOffset.y = 910;
+    this.batteryGreen.cameraOffset.x = 55;
+    this.batteryRed = game.add.image(0, 0, 'UI', 'Battery_Red');
     this.batteryRed.fixedToCamera = true;
     this.batteryRed.visible = false;
-    this.batteryRed.cameraOffset.y = 850;
-    this.battery = game.add.image(0, 0, 'battery');
+    this.batteryRed.cameraOffset.y = 910;
+    this.batteryRed.cameraOffset.x = 55;
+    this.battery = game.add.image(0, 0, 'UI', 'Battery_Border');
     this.battery.fixedToCamera = true;
-    this.battery.cameraOffset.y = 850;
+    this.battery.cameraOffset.y = 900;
+    this.battery.cameraOffset.x = 20;
 };
 
 Shaft.update = function() {
@@ -189,6 +201,9 @@ Shaft.update = function() {
         player.animations.play('fall');
     }
 
+    if(player.animations.currentAnim.name === 'jump_to_swing' && player.animations.currentAnim.isFinished) {
+        player.animations.play('swing');
+    }
 
     //  only move when you click
     if (this.hooked && this.energy > 0 && !this.connectionBroke)
@@ -246,7 +261,7 @@ Shaft.update = function() {
 
     Util.constrainVelocity(player, 200);
 
-    if(this.energy < 20) {
+    if(this.energy < 33) {
         this.batteryRed.visible = true;
         this.batteryGreen.visible = false;
     } else {

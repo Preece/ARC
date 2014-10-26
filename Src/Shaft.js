@@ -72,6 +72,11 @@ Shaft.create = function() {
             player.scale.x = -1;
     };
 
+    game.input.mouse.mouseUpCallback = function(event) {
+        if(player.body.velocity.y < 0)
+            player.body.velocity.y *= 1.5;
+    };
+
 
     /*
     //  Make things a bit more bouncey
@@ -94,11 +99,11 @@ Shaft.update = function() {
 
     player.body.rotation = 0;
 
-    /*if(player.body.velocity.x >= 0) {
+    if(player.body.velocity.x >= 0) {
         player.scale.x = -1;
     } else {
         player.scale.x = 1;
-    }*/
+    }
 
     //  only move when you click
     if (game.input.mousePointer.isDown && this.energy > 0 && !this.connectionBroke)

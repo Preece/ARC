@@ -34,11 +34,12 @@ Shaft.create = function() {
 
     player.animations.add('idle', ['IdleToShock0000'], 14, true, false);
     player.animations.add('swing', ['PullLoop0000', 'PullLoop0001', 'PullLoop0002', 'PullLoop0003', 'PullLoop0004', 'PullLoop0005', 'PullLoop0006', 'PullLoop0007', 'PullLoop0008'], 14, true, false);
-    player.animations.add('idle', ['IdleToShock0000'], 14, true, false);
-    player.animations.play('swing');
+    player.animations.add('initiate', ['IdleToShock0000', 'IdleToShock0001', 'IdleToShock0002', 'IdleToShock0003', 'IdleToShock0004', 'IdleToShock0005', 'IdleToShock0006', 'IdleToShock0007', 'IdleToShock0008', 'IdleToShock0009'], 20, false, false);
+    player.animations.add('initiate_to_swing', ['ShockToPull0000', 'ShockToPull0001', 'ShockToPull0002', 'ShockToPull0003', 'ShockToPull0004'], 20, false, false);
+    player.animations.play('idle');
 
     player.body.x = game.width / 2;
-    player.body.y = 9500;
+    player.body.y = 9800;
     //player.body.debug = true;
 
     hookDaemon = game.add.sprite(0, 0, null);
@@ -61,17 +62,27 @@ Shaft.create = function() {
     this.hookSpring = null;
 
     game.input.mouse.mouseDownCallback = function(event) {
+
         Shaft.clickSpot.x = game.input.worldX;
         Shaft.clickSpot.y = game.input.worldY;
         Shaft.connectionBroke = false;
 
         hookDaemon.body.x = game.input.worldX;
         hookDaemon.body.y = game.input.worldY;
-
+        
         if(game.input.worldX < player.body.x)
             player.scale.x = 1;
         else
             player.scale.x = -1;
+
+        if(player.animations.currentAnim.name === 'idle') {
+            player.animations.play('initiate');
+            return;
+        }
+
+        if(player.animations.currentAnim.name === 'initiate') {
+            return;
+        }
     };
 
     game.input.mouse.mouseUpCallback = function(event) {
@@ -88,6 +99,18 @@ Shaft.create = function() {
 };
 
 Shaft.update = function() {
+    if(player.animations.currentAnim.name === 'initiate' && !player.animations.currentAnim.isFinished) {
+        return;
+    } 
+
+    if(player.animations.currentAnim.name === 'initiate' && player.animations.currentAnim.isFinished) {
+        player.animations.play('initiate_to_swing');
+    }
+
+    if(player.animations.currentAnim.name === 'initiate_to_swing' && player.animations.currentAnim.isFinished) {
+        player.animations.play('swing');
+    }
+
     this.distText.text = 'Energy: ' + this.energy;
 
     player.body.rotation = 0;
@@ -98,22 +121,11 @@ Shaft.update = function() {
         //later this will depend on whether or not they clicked on a magnet
         this.hooked = true;
 
-        //var speed = 2000 / Util.distanceBetween(player.body, this.clickSpot);
-        var speed = 1 / Util.distanceBetween(player.body, this.clickSpot);
-        speed *= 4000;
-
         if(Util.distanceBetween(player.body, hookDaemon.body) < 100 && hookConstraint === null) {
             hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 100);
         }
 
         Util.accelerateToPoint(player, this.clickSpot, 20000);
-
-        if(Util.distanceBetween(player.body, this.clickSpot) < 50) {
-            player.body.force.x = 0;
-            player.body.force.y = 0;
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-        }
 
     } else if(this.energy <= 0) {
         this.connectionBroke = true;
@@ -164,15 +176,15 @@ Shaft.render = function() {
     lightningCanvas.clear();
     
     if(this.hooked) {
-        var xOffset = player.scale > 0 ? -50 : 50;
-        var yOffset = 0;
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)", 1.1);
+        var xOffset = player.scale.x > 0 ? -50 : 50;
+        var yOffset = -20;
+        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,1)");
         Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
         Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,1)", "rgba(100,100,255,0.8)");
         Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(100,100,255,0.8)");
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(100,100,255,0.8)");
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.4)");
-        Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.2)");
+        //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(100,100,255,0.8)");
+        //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.4)");
+        //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.2)");
     }
 };
 

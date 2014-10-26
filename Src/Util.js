@@ -3,7 +3,7 @@ var Util = {
 	    if (typeof speed === 'undefined') { speed = 60; }
 
 	    var angle = Math.atan2(destination.y - player.y, destination.x - player.x);
-	    player.body.rotation = angle + game.math.degToRad(90); 
+	    //player.body.rotation = angle + game.math.degToRad(90); 
 	    player.body.force.x = Math.cos(angle) * speed;    
 	    player.body.force.y = Math.sin(angle) * speed;
 	},
@@ -35,7 +35,7 @@ var Util = {
 		}
 	},
 
-	lightningStrike: function(x1, y1, x2, y2, color1, color2, width) {
+	lightningStrike: function(x1, y1, x2, y2, color1, color2) {
 		var x = x2 - x1;
 		var y = y2 - y1;
 		var segments = 50;
@@ -43,9 +43,7 @@ var Util = {
 		var width = distance / segments;
 		var prevX = x1;
 		var prevY = y1;
-		width = width || 1;
-
-		console.log('Lightning strike!');
+		//width = width || 1;
 		
 		for(var i = 0; i <= segments; i++) {
 			var magnitude = (width * i) / distance;

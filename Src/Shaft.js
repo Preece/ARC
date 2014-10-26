@@ -83,7 +83,7 @@ Shaft.create = function() {
         14, true, false);
     player.animations.add('jump_to_fall', ['UpToDown/UpToDown_2D0000', 'UpToDown/UpToDown_2D0001', 'UpToDown/UpToDown_2D0002', 'UpToDown/UpToDown_2D0003', 'UpToDown/UpToDown_2D0004'], 
         14, false, false);
-    player.animations.add('fall', ['UpToDown/UpToDown_2D0004'], 
+    player.animations.add('fall', ['DownLoop/DownLoop0000', 'DownLoop/DownLoop0001', 'DownLoop/DownLoop0002', 'DownLoop/DownLoop0003', 'DownLoop/DownLoop0004'], 
         14, true, false);
     player.animations.add('jump_to_swing', ['UpToPull/UpToPull_2D0000', 'UpToPull/UpToPull_2D0001', 'UpToPull/UpToPull_2D0002', 'UpToPull/UpToPull_2D0003', 'UpToPull/UpToPull_2D0004', 'UpToPull/UpToPull_2D0005', 'UpToPull/UpToPull_2D0006'],
         20, false, false);
@@ -294,6 +294,11 @@ Shaft.update = function() {
 
     this.batteryRed.scale.x = this.energy / 100;
     this.batteryGreen.scale.x = this.energy / 100;
+
+    if(player.body.y > 39850 && player.animations.currentAnim.name === 'fall') {
+        player.animations.play('idle');
+        player.body.velocity.x = 0;
+    }
 };
 
 Shaft.render = function() {

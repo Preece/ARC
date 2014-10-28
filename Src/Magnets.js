@@ -34,15 +34,15 @@ function PosOnMagnet(x, y) {
 	var onTheMag = false;
 
 	Magnets.forEach(function(m) {
-		if(x > m.x && y > m.y && x < m.x + 200 && y < m.y + 200) {
+		if(x > m.x && y > m.y && x < m.x + 100 && y < m.y + 100) {
 			onTheMag = true;
 			m.sprite.animations.play('active');
 		}
 	});
 
 	console.log('{ x: ' + x + ', y: '+ y + '},');
-	//return onTheMag;
-	return true;
+	return onTheMag;
+	//return true;
 };
 
 function ShutOffMagnets() {

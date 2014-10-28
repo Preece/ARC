@@ -37,7 +37,7 @@ Shaft.create = function() {
 
     //add the numbers
     for(var i = 1; i <= 10; i++) {
-        game.add.image(940, 20000 - (i * 1250), 'UI', 'Floor_' + i);
+        game.add.image(470, 20000 - (i * 1250), 'UI', 'Floor_' + i);
     }
 
     //set up the magnets
@@ -307,8 +307,8 @@ Shaft.render = function() {
     lightningCanvas.clear();
     
     if(this.hooked && !this.connectionBroke) {
-        var xOffset = player.scale.x > 0 ? -70 : 70;
-        var yOffset = -50;
+        var xOffset = player.scale.x > 0 ? -35 : 35;
+        var yOffset = -25;
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(255,255,255,1)");
        /* Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");*/

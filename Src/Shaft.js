@@ -279,9 +279,9 @@ Shaft.update = function() {
     if(this.energy < 0) this.energy = 0;
 
     if(this.hooked && player.body.velocity.y < 0) {
-        game.physics.p2.gravity.y = 2000;
+        game.physics.p2.gravity.y = 3000;
     } else {
-        game.physics.p2.gravity.y = 2500;
+        game.physics.p2.gravity.y = 3500;
     }
 
     lightningImage.x = game.camera.x;
@@ -314,12 +314,8 @@ Shaft.render = function() {
         var xOffset = player.scale.x > 0 ? -70 : 70;
         var yOffset = -50;
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(255,255,255,1)");
-        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
-        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
-        //Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(0,0,255,0.2)");
-        //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(100,100,255,0.8)");
-        //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.4)");
-        //Util.lightningStrike(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.2)", "rgba(255,255,255,0.2)");
+       /* Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");
+        Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.3)", "rgba(0,0,255,0.2)");*/
     }
 };
 

@@ -29,7 +29,7 @@ Shaft.create = function() {
 
     game.world.setBounds(0, 0, 1920, 40000);
     game.physics.startSystem(Phaser.Physics.P2JS);
-    game.physics.p2.gravity.y = 5000;
+    //game.physics.p2.gravity.y = 0;
     //game.time.deltaCap = 0.016;
 
     game.add.tileSprite(0, 0, 1920, 40000, 'background');
@@ -67,6 +67,20 @@ Shaft.create = function() {
 
         m.sprite.play('inactive');
     });
+
+    this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
+    this.batteryGreen.fixedToCamera = true;
+    this.batteryGreen.cameraOffset.y = 910;
+    this.batteryGreen.cameraOffset.x = 55;
+    this.batteryRed = game.add.image(0, 0, 'UI', 'Battery_Red');
+    this.batteryRed.fixedToCamera = true;
+    this.batteryRed.visible = false;
+    this.batteryRed.cameraOffset.y = 910;
+    this.batteryRed.cameraOffset.x = 55;
+    this.battery = game.add.image(0, 0, 'UI', 'Battery_Border');
+    this.battery.fixedToCamera = true;
+    this.battery.cameraOffset.y = 900;
+    this.battery.cameraOffset.x = 20;
 
     player = game.add.sprite(100, 100, 'player');
     game.physics.p2.enable(player);
@@ -159,7 +173,7 @@ Shaft.create = function() {
 
     game.input.mouse.mouseUpCallback = function(event) {
         if(player.body.velocity.y < 0) {
-            player.body.velocity.y *= 1.2;
+            player.body.velocity.y *= 1.1;
         }
         //if they were hooked on, play the transition animation
         if(Shaft.hooked) {
@@ -182,19 +196,6 @@ Shaft.create = function() {
     var xzz = game.add.image(0, 24000, 'foreground', 'Foreground_2');
     xzz.scale.x = -1;
 
-    this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
-    this.batteryGreen.fixedToCamera = true;
-    this.batteryGreen.cameraOffset.y = 910;
-    this.batteryGreen.cameraOffset.x = 55;
-    this.batteryRed = game.add.image(0, 0, 'UI', 'Battery_Red');
-    this.batteryRed.fixedToCamera = true;
-    this.batteryRed.visible = false;
-    this.batteryRed.cameraOffset.y = 910;
-    this.batteryRed.cameraOffset.x = 55;
-    this.battery = game.add.image(0, 0, 'UI', 'Battery_Border');
-    this.battery.fixedToCamera = true;
-    this.battery.cameraOffset.y = 900;
-    this.battery.cameraOffset.x = 20;
 
 };
 
@@ -244,7 +245,7 @@ Shaft.update = function() {
             hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 100);
         }
 
-        Util.accelerateToPoint(player, this.clickSpot, 20000);
+        Util.accelerateToPoint(player, this.clickSpot, 7600);
 
     } else if(this.energy <= 0) {
         this.connectionBroke = true;
@@ -278,9 +279,9 @@ Shaft.update = function() {
     if(this.energy < 0) this.energy = 0;
 
     if(this.hooked && player.body.velocity.y < 0) {
-        game.physics.p2.gravity.y = 4000;
+        game.physics.p2.gravity.y = 2000;
     } else {
-        game.physics.p2.gravity.y = 6000;
+        game.physics.p2.gravity.y = 2500;
     }
 
     lightningImage.x = game.camera.x;

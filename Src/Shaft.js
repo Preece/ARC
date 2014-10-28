@@ -25,7 +25,7 @@ var cameraDaemon;
 
 Shaft.create = function() {
 
-    game.add.plugin(Phaser.Plugin.Debug);
+    //game.add.plugin(Phaser.Plugin.Debug);
 
     game.world.setBounds(0, 0, 1920, 40000);
     game.physics.startSystem(Phaser.Physics.P2JS);
@@ -34,6 +34,10 @@ Shaft.create = function() {
 
     game.add.tileSprite(0, 0, 1920, 40000, 'background');
     game.add.image(0, 38920, 'title');
+
+    game.scale.maxWidth = 960;
+    game.scale.maxHeight = 540;
+    game.scale.setScreenSize(true);
 
     //add the numbers
     for(var i = 1; i <= 10; i++) {

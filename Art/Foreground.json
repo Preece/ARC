@@ -2,20 +2,20 @@
 
 "Foreground_1":
 {
-	"frame": {"x":2,"y":526,"w":834,"h":642},
+	"frame": {"x":2,"y":2,"w":417,"h":322},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":219,"w":834,"h":642},
-	"sourceSize": {"w":1920,"h":1080},
+	"spriteSourceSize": {"x":0,"y":109,"w":417,"h":322},
+	"sourceSize": {"w":960,"h":540},
 	"pivot": {"x":0.5,"y":0.5}
 },
 "Foreground_2":
 {
-	"frame": {"x":2,"y":2,"w":1711,"h":522},
+	"frame": {"x":421,"y":2,"w":856,"h":261},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":209,"y":46,"w":1711,"h":522},
-	"sourceSize": {"w":1920,"h":1080},
+	"spriteSourceSize": {"x":104,"y":23,"w":856,"h":261},
+	"sourceSize": {"w":960,"h":540},
 	"pivot": {"x":0.5,"y":0.5}
 }},
 "meta": {
@@ -23,8 +23,8 @@
 	"version": "1.0",
 	"image": "Foreground.png",
 	"format": "RGBA8888",
-	"size": {"w":1715,"h":1170},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e96cdd4690ba136381faace26b4f7baf:a5c6a2d752f194fb72f62c87eaee62c0:da89e644086a63d3617ce16cd29834d7$"
+	"size": {"w":1279,"h":326},
+	"scale": "0.5",
+	"smartupdate": "$TexturePacker:SmartUpdate:f047260df7c0c87317b13814f157d8a7:a5c6a2d752f194fb72f62c87eaee62c0:da89e644086a63d3617ce16cd29834d7$"
 }
 }

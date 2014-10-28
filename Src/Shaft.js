@@ -27,21 +27,17 @@ Shaft.create = function() {
 
     //game.add.plugin(Phaser.Plugin.Debug);
 
-    game.world.setBounds(0, 0, 1920, 40000);
+    game.world.setBounds(0, 0, 960, 20000);
     game.physics.startSystem(Phaser.Physics.P2JS);
     //game.physics.p2.gravity.y = 0;
     //game.time.deltaCap = 0.016;
 
-    game.add.tileSprite(0, 0, 1920, 40000, 'background');
-    game.add.image(0, 38920, 'title');
-
-    game.scale.maxWidth = 960;
-    game.scale.maxHeight = 540;
-    game.scale.setScreenSize(true);
+    game.add.tileSprite(0, 0, 960, 20000, 'background');
+    game.add.image(0, 19460, 'title');
 
     //add the numbers
     for(var i = 1; i <= 10; i++) {
-        game.add.image(940, 40000 - (i * 2500), 'UI', 'Floor_' + i);
+        game.add.image(940, 20000 - (i * 1250), 'UI', 'Floor_' + i);
     }
 
     //set up the magnets
@@ -50,13 +46,13 @@ Shaft.create = function() {
         m.sprite.x = m.x;
         m.sprite.y = m.y;
         
-        if(m.sprite.x < 400) {
+        if(m.sprite.x < 200) {
             m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
             m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
 
             m.sprite.scale.x = -1;
             m.sprite.anchor.setTo(1, 0);
-        } else if(m.sprite.x > 1300) {
+        } else if(m.sprite.x > 650) {
             m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
             m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
         } else {
@@ -70,21 +66,21 @@ Shaft.create = function() {
 
     this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
     this.batteryGreen.fixedToCamera = true;
-    this.batteryGreen.cameraOffset.y = 910;
-    this.batteryGreen.cameraOffset.x = 55;
+    this.batteryGreen.cameraOffset.y = 455;
+    this.batteryGreen.cameraOffset.x = 27;
     this.batteryRed = game.add.image(0, 0, 'UI', 'Battery_Red');
     this.batteryRed.fixedToCamera = true;
     this.batteryRed.visible = false;
-    this.batteryRed.cameraOffset.y = 910;
-    this.batteryRed.cameraOffset.x = 55;
+    this.batteryRed.cameraOffset.y = 455;
+    this.batteryRed.cameraOffset.x = 27;
     this.battery = game.add.image(0, 0, 'UI', 'Battery_Border');
     this.battery.fixedToCamera = true;
-    this.battery.cameraOffset.y = 900;
-    this.battery.cameraOffset.x = 20;
+    this.battery.cameraOffset.y = 450;
+    this.battery.cameraOffset.x = 10;
 
     player = game.add.sprite(100, 100, 'player');
     game.physics.p2.enable(player);
-    player.body.setRectangle(50, 210, 5, 10); 
+    player.body.setRectangle(25, 105, 5, 10); 
     player.body.mass = 1;
 
     player.animations.add('idle', ['IdleToShock/IdleToShock0000'], 
@@ -109,7 +105,7 @@ Shaft.create = function() {
     player.animations.play('idle');
 
     player.body.x = game.width / 2;
-    player.body.y = 39900;
+    player.body.y = 19950;
     //player.body.debug = true;
 
     hookDaemon = game.add.sprite(0, 0, null);
@@ -184,16 +180,16 @@ Shaft.create = function() {
         Shaft.hooked = false;
     };
 
-    lightningCanvas = game.make.bitmapData(1920, 1080);
+    lightningCanvas = game.make.bitmapData(960, 540);
     lightningImage = lightningCanvas.addToWorld();
     lightningImage.fixedToCamera = true;
 
-    game.add.image(0, 38000, 'foreground', 'Foreground_1');
-    game.add.image(0, 35000, 'foreground', 'Foreground_2');
-    var zzz = game.add.image(0, 30000, 'foreground', 'Foreground_1');
+    game.add.image(0, 19000, 'foreground', 'Foreground_1');
+    game.add.image(0, 17500, 'foreground', 'Foreground_2');
+    var zzz = game.add.image(0, 15000, 'foreground', 'Foreground_1');
     zzz.scale.x = -1;
-    game.add.image(0, 27000, 'foreground', 'Foreground_2');
-    var xzz = game.add.image(0, 24000, 'foreground', 'Foreground_2');
+    game.add.image(0, 13500, 'foreground', 'Foreground_2');
+    var xzz = game.add.image(0, 12000, 'foreground', 'Foreground_2');
     xzz.scale.x = -1;
 
 
@@ -202,7 +198,7 @@ Shaft.create = function() {
 Shaft.update = function() {
 
     cameraDaemon.body.x = player.body.x;
-    cameraDaemon.body.y = player.body.y - 400;
+    cameraDaemon.body.y = player.body.y - 200;
     player.body.rotation = 0;
 
     if(player.animations.currentAnim.name === 'initiate' && !player.animations.currentAnim.isFinished) {
@@ -245,7 +241,7 @@ Shaft.update = function() {
             hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 100);
         }
 
-        Util.accelerateToPoint(player, this.clickSpot, 7600);
+        Util.accelerateToPoint(player, this.clickSpot, 3800);
 
     } else if(this.energy <= 0) {
         this.connectionBroke = true;
@@ -279,9 +275,9 @@ Shaft.update = function() {
     if(this.energy < 0) this.energy = 0;
 
     if(this.hooked && player.body.velocity.y < 0) {
-        game.physics.p2.gravity.y = 3000;
+        game.physics.p2.gravity.y = 1500;
     } else {
-        game.physics.p2.gravity.y = 3500;
+        game.physics.p2.gravity.y = 1750;
     }
 
     lightningImage.x = game.camera.x;

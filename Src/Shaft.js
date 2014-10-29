@@ -197,7 +197,7 @@ Shaft.create = function() {
 
 Shaft.update = function() {
 
-    cameraDaemon.body.x = player.body.x;
+    cameraDaemon.body.x = 0;player.body.x;
     cameraDaemon.body.y = player.body.y - 200;
     player.body.rotation = 0;
 

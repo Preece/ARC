@@ -1,3 +1,2 @@
-Energy Gamejam Fun!
+A kinetic climbing game
 ======
-Wolff > Clyde

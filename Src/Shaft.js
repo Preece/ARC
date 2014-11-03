@@ -237,11 +237,11 @@ Shaft.update = function() {
 
         var distance = Util.distanceBetween(player.body, hookDaemon.body);
 
-        if(distance < 100 && hookConstraint === null) {
-            hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 100);
+        if(distance < 30 && hookConstraint === null) {
+            hookConstraint = game.physics.p2.createDistanceConstraint(player, hookDaemon, 30);
         }
 
-        Util.accelerateToPoint(player, this.clickSpot, 3800);
+        Util.accelerateToPoint(player, this.clickSpot, 4000);
 
     } else if(this.energy <= 0) {
         this.connectionBroke = true;
@@ -264,9 +264,9 @@ Shaft.update = function() {
 
         if(this.hooked === true) {
             var dist = Util.distanceBetween(player.body, hookDaemon.body);
-            this.energy -= 2 + (7 * (dist / 2000));
+            this.energy -= 1.5 + (7 * (dist / 2000));
         } else {
-            this.energy += 2;
+            this.energy += 2.5;
         }
 
         this.energyTicker = game.time.now + 100;
@@ -296,7 +296,7 @@ Shaft.update = function() {
     this.batteryRed.scale.x = this.energy / 100;
     this.batteryGreen.scale.x = this.energy / 100;
 
-    if(player.body.y > 39850 && player.animations.currentAnim.name === 'fall') {
+    if(player.body.y > 19925 && player.animations.currentAnim.name === 'fall') {
         player.animations.play('idle');
         player.body.velocity.x = 0;
     }

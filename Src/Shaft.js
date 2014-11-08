@@ -22,6 +22,7 @@ var hookDaemon;
 var hookConstraint = null;
 
 var indicator;
+var fgElems = [];
 
 var cameraDaemon;
 
@@ -196,14 +197,28 @@ Shaft.create = function() {
     lightningImage = lightningCanvas.addToWorld();
     lightningImage.fixedToCamera = true;
 
-    game.add.image(0, 19000, 'foreground', 'Foreground_1');
-    game.add.image(0, 17500, 'foreground', 'Foreground_2');
-    var zzz = game.add.image(0, 15000, 'foreground', 'Foreground_1');
-    zzz.scale.x = -1;
-    game.add.image(0, 13500, 'foreground', 'Foreground_2');
-    var xzz = game.add.image(0, 12000, 'foreground', 'Foreground_2');
-    xzz.scale.x = -1;
 
+    var fgPos = 19000;
+    for(var i = 0; i < 30; i++) {
+    	var rand = Math.random() * 4;
+    	var elem;
+
+    	if(rand > 3) {
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_1');
+    	} else if(rand > 2) {
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_1');
+    		elem.anchor.x = 1;
+    		elem.scale.x = -1;
+    	} else if(rand > 1) {
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_2');
+    	} else {
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_2');
+    		elem.anchor.x = 1;
+    		elem.scale.x = -1;
+    	}
+
+    	fgPos -= 3000 * Math.random() + 750;
+    }
 
 };
 

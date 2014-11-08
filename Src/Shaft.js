@@ -52,7 +52,7 @@ Shaft.create = function() {
 
             m.sprite.scale.x = -1;
             m.sprite.anchor.setTo(1, 0);
-        } else if(m.sprite.x > 650) {
+        } else if(m.sprite.x > 680) {
             m.sprite.animations.add('inactive', ['Magnet_Angle_Inactive'], 14, false, false);
             m.sprite.animations.add('active', ['Magnet_Angle_Active_1', 'Magnet_Angle_Active_2', 'Magnet_Angle_Active_3'], 10, true, false);
         } else {
@@ -66,16 +66,16 @@ Shaft.create = function() {
 
     this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
     this.batteryGreen.fixedToCamera = true;
-    this.batteryGreen.cameraOffset.y = 455;
+    this.batteryGreen.cameraOffset.y = 905;
     this.batteryGreen.cameraOffset.x = 27;
     this.batteryRed = game.add.image(0, 0, 'UI', 'Battery_Red');
     this.batteryRed.fixedToCamera = true;
     this.batteryRed.visible = false;
-    this.batteryRed.cameraOffset.y = 455;
+    this.batteryRed.cameraOffset.y = 905;
     this.batteryRed.cameraOffset.x = 27;
     this.battery = game.add.image(0, 0, 'UI', 'Battery_Border');
     this.battery.fixedToCamera = true;
-    this.battery.cameraOffset.y = 450;
+    this.battery.cameraOffset.y = 900;
     this.battery.cameraOffset.x = 10;
 
     player = game.add.sprite(100, 100, 'player');
@@ -180,7 +180,7 @@ Shaft.create = function() {
         Shaft.hooked = false;
     };
 
-    lightningCanvas = game.make.bitmapData(960, 540);
+    lightningCanvas = game.make.bitmapData(960, 1080);
     lightningImage = lightningCanvas.addToWorld();
     lightningImage.fixedToCamera = true;
 

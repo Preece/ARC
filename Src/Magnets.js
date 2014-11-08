@@ -1,4 +1,4 @@
-Magnets = [
+/*Magnets = [
 
 { x: 110, y: 19560},
 { x: 729, y: 19462},
@@ -28,7 +28,30 @@ Magnets = [
 { x: 500, y: 11494},
 { x: 500, y: 10594},
 { x: 500, y: 9794}
+];*/
+
+//the initial two magnets will always be the same
+Magnets = [
+	{ x: 110, y: 19560},
+	{ x: 729, y: 19462}
 ];
+
+(function GenerateMagnets() {
+	//the algorithm will vary the distance from the previously placed magnet
+	//within a growing median distance and variance
+
+	for(var i = 0; i < 1000; i++) {
+		var pX = Magnets[Magnets.length - 1].x;
+		var pY = Magnets[Magnets.length - 1].y;
+
+		//the distance should start around 400 and grow from there
+		var newX = Math.random() * 960;
+		var newY = pY - (200 * Math.random()) - 200 - (i * Math.random());
+
+		Magnets.push({x: newX, y: newY});
+	}
+
+})();
 
 function PosOnMagnet(x, y) {
 	var onTheMag = false;

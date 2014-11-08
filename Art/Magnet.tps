@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>3.5.2</string>
+        <string>3.5.3</string>
         <key>fileName</key>
-        <string>D:/gamedev/energy-gamejam/Art/Magnet.tps</string>
+        <string>C:/Users/user/Documents/gamedev/ARC/Art/Magnet.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -196,6 +196,9 @@
             <filename>Environment/Magnet/Magnet_Front_Active_2.png</filename>
             <filename>Environment/Magnet/Magnet_Front_Active_3.png</filename>
             <filename>Environment/Magnet/Magnet_Front_Inactive.png</filename>
+            <filename>RedCircle_3.png</filename>
+            <filename>RedCircle_2.png</filename>
+            <filename>RedCircle_4.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

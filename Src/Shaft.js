@@ -21,6 +21,8 @@ var player;
 var hookDaemon;
 var hookConstraint = null;
 
+var indicator;
+
 var cameraDaemon;
 
 Shaft.create = function() {
@@ -39,6 +41,16 @@ Shaft.create = function() {
     for(var i = 1; i <= 10; i++) {
         game.add.image(470, 20000 - (i * 1250), 'UI', 'Floor_' + i);
     }
+
+    //add the indicator
+    indicator = game.add.sprite(50, 50, 'magnet');
+    indicator.x = Magnets[0].x + 80;
+    indicator.y = Magnets[0].y - 55;
+    indicator.animations.add('flashing', ['RedCircle_2', 'RedCircle_3', 'RedCircle_4'], 5, true, false);
+    indicator.play('flashing');
+    indicator.anchor.x = 0.5;
+    indicator.scale.x = -1;
+
 
     //set up the magnets
     Magnets.forEach(function(m) {
@@ -197,7 +209,7 @@ Shaft.create = function() {
 
 Shaft.update = function() {
 
-    cameraDaemon.body.x = 0;player.body.x;
+    cameraDaemon.body.x = 0;
     cameraDaemon.body.y = player.body.y - 200;
     player.body.rotation = 0;
 

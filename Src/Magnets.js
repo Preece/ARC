@@ -44,9 +44,9 @@ Magnets = [
 		var pX = Magnets[Magnets.length - 1].x;
 		var pY = Magnets[Magnets.length - 1].y;
 
-		//the distance should start around 400 and grow from there
-		var newX = Math.random() * 960;
-		var newY = pY - (200 * Math.random()) - 200 - (i * Math.random());
+		//the x should only be able to vary from the previous by a certain distance
+		var newX = Math.random() * 940;
+		var newY = pY - (200 * Math.random()) - 200 - ((i * 0.8) * Math.random());
 
 		Magnets.push({x: newX, y: newY});
 	}

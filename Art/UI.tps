@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>3.5.2</string>
+        <string>3.5.3</string>
         <key>fileName</key>
-        <string>D:/gamedev/energy-gamejam/Art/UI.tps</string>
+        <string>C:/Users/user/Documents/gamedev/ARC/Art/UI.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -201,6 +201,7 @@
             <filename>Environment/Floor_9.png</filename>
             <filename>Environment/Floor_10.png</filename>
             <filename>Environment/Floor_1.png</filename>
+            <filename>Environment/Floor_0.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

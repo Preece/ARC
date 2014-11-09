@@ -63,7 +63,6 @@ function PosOnMagnet(x, y) {
 		}
 	});
 
-	console.log('{ x: ' + x + ', y: '+ y + '},');
 	return onTheMag;
 	//return true;
 };

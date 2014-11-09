@@ -25,6 +25,7 @@ var indicator;
 var fgElems = [];
 
 var cameraDaemon;
+var cameraTween;
 
 Shaft.create = function() {
 
@@ -39,8 +40,11 @@ Shaft.create = function() {
     game.add.image(0, 19460, 'title');
 
     //add the numbers
-    for(var i = 1; i <= 10; i++) {
-        game.add.image(470, 20000 - (i * 1250), 'UI', 'Floor_' + i);
+    for(var i = 1; i < 100; i++) {
+    	var tens = Math.floor(i / 10);
+    	var ones = i % 10;
+        game.add.image(390, 20000 - (i * 1250), 'UI', 'Floor_' + tens);
+        game.add.image(490, 20000 - (i * 1250), 'UI', 'Floor_' + ones);
     }
 
     //add the indicator
@@ -127,7 +131,7 @@ Shaft.create = function() {
     hookDaemon.body.setRectangle(0, 0, 20, 20);
     hookDaemon.body.debug = true;
 
-    cameraDaemon = game.add.sprite(0, 0, null);
+    cameraDaemon = game.add.sprite(0, player.body.y, null);
     game.physics.p2.enable(cameraDaemon);
     cameraDaemon.body.static = true;
 
@@ -198,7 +202,7 @@ Shaft.create = function() {
     lightningImage.fixedToCamera = true;
 
 
-    var fgPos = 19000;
+    var fgPos = 18000;
     for(var i = 0; i < 30; i++) {
     	var rand = Math.random() * 4;
     	var elem;
@@ -218,15 +222,29 @@ Shaft.create = function() {
     	}
 
     	fgPos -= 3000 * Math.random() + 750;
+    	fgElems.push(elem);
     }
+
+    cameraTween = game.add.tween(cameraDaemon.body);
 
 };
 
 Shaft.update = function() {
 
+	var yDiff = cameraDaemon.body.y;
+
     cameraDaemon.body.x = 0;
     cameraDaemon.body.y = player.body.y - 200;
+    cameraTween.to({y: player.body.y - 200 + (player.body.velocity.y / 7)}, 200, Phaser.Easing.Linear.None, true);
+    //cameraDaemon.body.y = ;
     player.body.rotation = 0;
+
+    yDiff -= cameraDaemon.body.y;
+    yDiff /= 3;
+
+    for(var i = 0; i < fgElems.length; i++) {
+    	fgElems[i].y += yDiff;
+    }
 
     if(player.animations.currentAnim.name === 'initiate' && !player.animations.currentAnim.isFinished) {
         return;
@@ -291,7 +309,7 @@ Shaft.update = function() {
 
         if(this.hooked === true) {
             var dist = Util.distanceBetween(player.body, hookDaemon.body);
-            this.energy -= 1.5 + (7 * (dist / 2000));
+            //this.energy -= 1.5 + (7 * (dist / 2000));
         } else {
             this.energy += 2.5;
         }

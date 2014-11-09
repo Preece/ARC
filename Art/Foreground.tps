@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>3.5.2</string>
+        <string>3.5.3</string>
         <key>fileName</key>
-        <string>D:/gamedev/energy-gamejam/Art/Foreground.tps</string>
+        <string>C:/Users/user/Documents/gamedev/ARC/Art/Foreground.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -119,7 +119,7 @@
             <key>basic</key>
             <struct type="AlgorithmBasicSettings">
                 <key>sortBy</key>
-                <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
+                <enum type="AlgorithmBasicSettings::SortBy">Area</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
             </struct>
@@ -190,6 +190,9 @@
         <array>
             <filename>Environment/Foreground_2.png</filename>
             <filename>Environment/Foreground_1.png</filename>
+            <filename>Environment/Foreground_4.png</filename>
+            <filename>Environment/Foreground_5.png</filename>
+            <filename>Environment/Foreground_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -105,9 +105,9 @@ Shaft.create = function() {
     player.animations.add('swing', ['PullLoop/PullLoop_2D0000', 'PullLoop/PullLoop_2D0001', 'PullLoop/PullLoop_2D0002', 'PullLoop/PullLoop_2D0003', 'PullLoop/PullLoop_2D0004', 'PullLoop/PullLoop_2D0005', 'PullLoop/PullLoop_2D0006', 'PullLoop/PullLoop_2D0007'], 
         14, true, false);
     player.animations.add('initiate', ['IdleToShock/IdleToShock0000', 'IdleToShock/IdleToShock0001', 'IdleToShock/IdleToShock0002', 'IdleToShock/IdleToShock0003', 'IdleToShock/IdleToShock0004', 'IdleToShock/IdleToShock0005', 'IdleToShock/IdleToShock0006', 'IdleToShock/IdleToShock0007', 'IdleToShock/IdleToShock0008', 'IdleToShock/IdleToShock0009'], 
-        14, false, false);
+        20, false, false);
     player.animations.add('initiate_to_swing', ['ShockToPull/ShockToPull0000', 'ShockToPull/ShockToPull0001', 'ShockToPull/ShockToPull0002', 'ShockToPull/ShockToPull0003', 'ShockToPull/ShockToPull0004'], 
-        14, false, false);
+        20, false, false);
     player.animations.add('swing_to_jump', ['PullRelease/PullRelease_2D0000', 'PullRelease/PullRelease_2D0001', 'PullRelease/PullRelease_2D0002', 'PullRelease/PullRelease_2D0003', 'PullRelease/PullRelease_2D0004', 'PullRelease/PullRelease_2D0005'], 
         20, false, false);
     player.animations.add('jump', ['PullRelease/PullRelease_2D0005'], 
@@ -118,6 +118,8 @@ Shaft.create = function() {
         14, true, false);
     player.animations.add('jump_to_swing', ['UpToPull/UpToPull_2D0000', 'UpToPull/UpToPull_2D0001', 'UpToPull/UpToPull_2D0002', 'UpToPull/UpToPull_2D0003', 'UpToPull/UpToPull_2D0004', 'UpToPull/UpToPull_2D0005', 'UpToPull/UpToPull_2D0006'],
         20, false, false);
+    player.animations.add('reverse_swing', ['ReverseShock/ReverseShock0000', 'ReverseShock/ReverseShock0002', 'ReverseShock/ReverseShock0004', 'ReverseShock/ReverseShock0006', 'ReverseShock/ReverseShock0008'],
+    	20, false, false);
 
     player.animations.play('idle');
 
@@ -153,10 +155,16 @@ Shaft.create = function() {
             Shaft.hooked = false;
             return;
         } else {
-            if(player.animations.currentAnim.name === 'jump') {
+            if(player.animations.currentAnim.name === 'idle') {
+                player.animations.play('initiate');
+            } else if(game.input.worldX < player.body.x && player.scale.x < 0) {
+            	player.animations.play('reverse_swing');
+            } else if(game.input.worldX > player.body.x && player.scale.x > 0) {
+            	player.animations.play('reverse_swing');
+            } else if(player.animations.currentAnim.name === 'jump' || player.animations.currentAnim.name === 'jump_to_fall') {
                 player.animations.play('jump_to_swing');
             } else {
-                player.animations.play('swing');
+            	player.animations.play('swing');
             }
 
             Shaft.hooked = true;
@@ -169,19 +177,13 @@ Shaft.create = function() {
         hookDaemon.body.x = game.input.worldX;
         hookDaemon.body.y = game.input.worldY;
         
-        if(game.input.worldX < player.body.x)
+
+        /*if(game.input.worldX < player.body.x) {
             player.scale.x = 1;
-        else
+        } else {
             player.scale.x = -1;
+        }*/
 
-        if(player.animations.currentAnim.name === 'idle') {
-            player.animations.play('initiate');
-            return;
-        }
-
-        if(player.animations.currentAnim.name === 'initiate') {
-            return;
-        }
     };
 
     game.input.mouse.mouseUpCallback = function(event) {
@@ -204,21 +206,24 @@ Shaft.create = function() {
 
     var fgPos = 18000;
     for(var i = 0; i < 30; i++) {
-    	var rand = Math.random() * 4;
+    	var rand = Math.random() * 5;
     	var elem;
 
-    	if(rand > 3) {
+    	if(rand > 4) {
     		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_1');
+    	} else if(rand > 3) {
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_2');
     	} else if(rand > 2) {
-    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_1');
-    		elem.anchor.x = 1;
-    		elem.scale.x = -1;
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_3');
     	} else if(rand > 1) {
-    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_2');
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_4');
     	} else {
-    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_2');
-    		elem.anchor.x = 1;
-    		elem.scale.x = -1;
+    		elem = game.add.image(0, fgPos, 'foreground', 'Foreground_5');
+    	}
+
+    	if(Math.random() > 0.5) {
+	    	elem.anchor.x = 1;
+	    	elem.scale.x = -1;
     	}
 
     	fgPos -= 3000 * Math.random() + 750;
@@ -274,6 +279,15 @@ Shaft.update = function() {
         player.animations.play('swing');
     }
 
+    if(player.animations.currentAnim.name === 'reverse_swing' && player.animations.currentAnim.isFinished) {
+        player.animations.play('swing');
+
+        if(player.scale.x > 0)
+        	player.scale.x = -1;
+        else
+        	player.scale.x = 1;
+    }
+
     //  only move when you click
     if (this.hooked && this.energy > 0 && !this.connectionBroke)
     {
@@ -309,7 +323,7 @@ Shaft.update = function() {
 
         if(this.hooked === true) {
             var dist = Util.distanceBetween(player.body, hookDaemon.body);
-            //this.energy -= 1.5 + (7 * (dist / 2000));
+            this.energy -= 1.5 + (7 * (dist / 2000));
         } else {
             this.energy += 2.5;
         }
@@ -351,7 +365,7 @@ Shaft.render = function() {
 
     lightningCanvas.clear();
     
-    if(this.hooked && !this.connectionBroke) {
+    if(this.hooked && !this.connectionBroke && player.animations.currentAnim.name !== 'initiate') {
         var xOffset = player.scale.x > 0 ? -35 : 35;
         var yOffset = -25;
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(255,255,255,1)");

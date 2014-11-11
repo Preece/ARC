@@ -255,6 +255,17 @@ Shaft.update = function() {
     	fgElems[i].y += yDiff;
     }
 
+    if(player.y > 19925 && (player.animations.currentAnim.name === 'fall_to_spiral' || player.animations.currentAnim.name === 'spiral')) {
+        game.world.alpha = 0;
+        player.body.velocity.x = 0;
+        player.body.x = game.width / 2;
+        console.log(player.animations.currentAnim.name);
+        console.log(player.y);
+        player.animations.play('idle');
+        game.add.tween(game.world).to({alpha: 1}, 1000, Phaser.Easing.Linear.None, true, 1000);
+        this.energy = 100;
+    }
+
     if(player.animations.currentAnim.name === 'initiate' && !player.animations.currentAnim.isFinished) {
         return;
     } 

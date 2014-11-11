@@ -120,6 +120,10 @@ Shaft.create = function() {
         20, false, false);
     player.animations.add('reverse_swing', ['ReverseShock/ReverseShock0000', 'ReverseShock/ReverseShock0002', 'ReverseShock/ReverseShock0004', 'ReverseShock/ReverseShock0006', 'ReverseShock/ReverseShock0008'],
     	20, false, false);
+    player.animations.add('fall_to_spiral', ['DownToSpiral/DownToSpiral0000', 'DownToSpiral/DownToSpiral0001', 'DownToSpiral/DownToSpiral0002', 'DownToSpiral/DownToSpiral0003'],
+        20, false, false);
+    player.animations.add('spiral', ['Spiraling/Spiraling0000', 'Spiraling/Spiraling0001', 'Spiraling/Spiraling0002', 'Spiraling/Spiraling0003', 'Spiraling/Spiraling0004', 'Spiraling/Spiraling0005', 'Spiraling/Spiraling0006', 'Spiraling/Spiraling0007', 'Spiraling/Spiraling0008', 'Spiraling/Spiraling0009'],
+        14, true, false);
 
     player.animations.play('idle');
 
@@ -255,6 +259,10 @@ Shaft.update = function() {
         return;
     } 
 
+    if(player.animations.currentAnim.name === 'spiral') {
+        return;
+    }
+
     if(player.animations.currentAnim.name === 'initiate' && player.animations.currentAnim.isFinished) {
         player.animations.play('initiate_to_swing');
     }
@@ -277,6 +285,10 @@ Shaft.update = function() {
 
     if(player.animations.currentAnim.name === 'jump_to_swing' && player.animations.currentAnim.isFinished) {
         player.animations.play('swing');
+    }
+
+    if(player.animations.currentAnim.name === 'fall_to_spiral' && player.animations.currentAnim.isFinished) {
+        player.animations.play('spiral');
     }
 
     if(player.animations.currentAnim.name === 'reverse_swing' && player.animations.currentAnim.isFinished) {
@@ -355,6 +367,10 @@ Shaft.update = function() {
     this.batteryRed.scale.x = this.energy / 100;
     this.batteryGreen.scale.x = this.energy / 100;
 
+    if(player.body.velocity.y > 2000 && player.animations.currentAnim.name !== 'fall_to_spiral' && player.animations.currentAnim.name !== 'spiral') {
+        player.animations.play('fall_to_spiral')
+    }
+
     if(player.body.y > 19925 && player.animations.currentAnim.name === 'fall') {
         player.animations.play('idle');
         player.body.velocity.x = 0;
@@ -365,7 +381,7 @@ Shaft.render = function() {
 
     lightningCanvas.clear();
     
-    if(this.hooked && !this.connectionBroke && player.animations.currentAnim.name !== 'initiate') {
+    if(this.hooked && !this.connectionBroke && player.animations.currentAnim.name !== 'initiate' && player.animations.currentAnim.name !== 'spiral') {
         var xOffset = player.scale.x > 0 ? -35 : 35;
         var yOffset = -25;
         Util.crazyLightning(player.x + xOffset, player.y - game.camera.y + yOffset, this.clickSpot.x, this.clickSpot.y - game.camera.y, "rgba(0,0,255,0.8)", "rgba(255,255,255,1)");

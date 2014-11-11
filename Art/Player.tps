@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.5.3</string>
         <key>fileName</key>
-        <string>C:/Users/user/Documents/gamedev/ARC/Art/Player.tps</string>
+        <string>D:/gamedev/energy-gamejam/Art/Player.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">

@@ -12,6 +12,7 @@ Shaft.preload = function() {
     game.load.atlasJSONHash('foreground', 'Art/Foreground.png', 'Art/Foreground.json');
 
     game.load.image('title', 'Art/Environment/Title.png');
+    game.load.image('floor', 'Art/Environment/FloorGround.png');
 
 };
 
@@ -37,7 +38,8 @@ Shaft.create = function() {
     //game.time.deltaCap = 0.016;
 
     game.add.tileSprite(0, 0, 960, 20000, 'background');
-    game.add.image(0, 19460, 'title');
+    game.add.image(30, 19400, 'title');
+    game.add.image(0, 19460, 'floor');
 
     //add the numbers
     for(var i = 1; i < 100; i++) {
@@ -83,16 +85,16 @@ Shaft.create = function() {
 
     this.batteryGreen = game.add.image(0, 0, 'UI', 'Battery_Green');
     this.batteryGreen.fixedToCamera = true;
-    this.batteryGreen.cameraOffset.y = 905;
+    this.batteryGreen.cameraOffset.y = 995;
     this.batteryGreen.cameraOffset.x = 27;
     this.batteryRed = game.add.image(0, 0, 'UI', 'Battery_Red');
     this.batteryRed.fixedToCamera = true;
     this.batteryRed.visible = false;
-    this.batteryRed.cameraOffset.y = 905;
+    this.batteryRed.cameraOffset.y = 995;
     this.batteryRed.cameraOffset.x = 27;
     this.battery = game.add.image(0, 0, 'UI', 'Battery_Border');
     this.battery.fixedToCamera = true;
-    this.battery.cameraOffset.y = 900;
+    this.battery.cameraOffset.y = 990;
     this.battery.cameraOffset.x = 10;
 
     player = game.add.sprite(100, 100, 'player');
@@ -154,7 +156,7 @@ Shaft.create = function() {
     this.connectionBroke = false;
     this.hookSpring = null;
 
-    game.input.mouse.mouseDownCallback = function(event) {
+    game.input.onDown.add(function() {
         if(!PosOnMagnet(game.input.worldX, game.input.worldY)) {
             Shaft.hooked = false;
             return;
@@ -188,9 +190,9 @@ Shaft.create = function() {
             player.scale.x = -1;
         }*/
 
-    };
+    });
 
-    game.input.mouse.mouseUpCallback = function(event) {
+    game.input.onUp.add(function() {
         if(player.body.velocity.y < 0) {
             player.body.velocity.y *= 1.1;
         }
@@ -201,7 +203,7 @@ Shaft.create = function() {
         }
 
         Shaft.hooked = false;
-    };
+    });
 
     lightningCanvas = game.make.bitmapData(960, 1080);
     lightningImage = lightningCanvas.addToWorld();

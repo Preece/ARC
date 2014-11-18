@@ -40,7 +40,7 @@ Magnets = [
 	//the algorithm will vary the distance from the previously placed magnet
 	//within a growing median distance and variance
 
-	for(var i = 0; i < 1000; i++) {
+	for(var i = 0; i < 500; i++) {
 		var pX = Magnets[Magnets.length - 1].x;
 		var pY = Magnets[Magnets.length - 1].y;
 

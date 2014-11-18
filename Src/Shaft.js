@@ -49,6 +49,24 @@ Shaft.create = function() {
         game.add.image(490, 20000 - (i * 1250), 'UI', 'Floor_' + ones);
     }
 
+    for(var i = 1; i < 100; i++) {
+        var elem = Math.random() * 6;
+
+        if(elem <= 1) {
+            game.add.image(Math.random() * 900, 20000 - (i * 1550) + ((Math.random() * 300) - 150), 'UI', 'BG_Item_1');
+        } else if(elem <= 2) {
+            game.add.image(Math.random() * 900, 20000 - (i * 1550) + ((Math.random() * 300) - 150), 'UI', 'BG_Item_2');
+        } else if(elem <= 3) {
+            game.add.image(Math.random() * 900, 20000 - (i * 1550) + ((Math.random() * 300) - 150), 'UI', 'BG_Item_3');
+        } else if(elem <= 4) {
+            game.add.image(Math.random() * 900, 20000 - (i * 1550) + ((Math.random() * 300) - 150), 'UI', 'BG_Item_4');            
+        } else if(elem <= 5) {
+            game.add.image(Math.random() * 900, 20000 - (i * 1550) + ((Math.random() * 300) - 150), 'UI', 'BG_Item_5');            
+        } else if(elem <= 6) {
+            game.add.image(Math.random() * 900, 20000 - (i * 1550) + ((Math.random() * 300) - 150), 'UI', 'BG_Item_6');            
+        }
+    }
+
     //add the indicator
     indicator = game.add.sprite(50, 50, 'magnet');
     indicator.x = Magnets[0].x + 80;
@@ -162,6 +180,12 @@ Shaft.create = function() {
             return;
         } else {
             if(player.animations.currentAnim.name === 'idle') {
+                if(game.input.worldX < player.body.x && player.scale.x < 0)
+                    player.scale.x *= -1;
+
+                if(game.input.worldX > player.body.x && player.scale.x > 0)
+                    player.scale.x *= -1;
+
                 player.animations.play('initiate');
             } else if(game.input.worldX < player.body.x && player.scale.x < 0) {
             	player.animations.play('reverse_swing');

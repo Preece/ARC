@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.5.3</string>
         <key>fileName</key>
-        <string>C:/Users/user/Documents/gamedev/ARC/Art/UI.tps</string>
+        <string>D:/gamedev/energy-gamejam/Art/UI.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -202,6 +202,12 @@
             <filename>Environment/Floor_10.png</filename>
             <filename>Environment/Floor_1.png</filename>
             <filename>Environment/Floor_0.png</filename>
+            <filename>Environment/BG_Item_2.png</filename>
+            <filename>Environment/BG_Item_3.png</filename>
+            <filename>Environment/BG_Item_4.png</filename>
+            <filename>Environment/BG_Item_5.png</filename>
+            <filename>Environment/BG_Item_6.png</filename>
+            <filename>Environment/BG_Item_1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
